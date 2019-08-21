@@ -1,0 +1,17 @@
+FROM node:12.8.1
+
+RUN mkdir -p /app/node_modules
+
+RUN apt-get update && apt-get install -y vim
+
+WORKDIR /app
+
+COPY . /app/
+
+RUN npm install && npm run prod:build
+
+WORKDIR /app/dist-server
+
+EXPOSE 80
+
+CMD ["npm", "run", "prod:run:server"]

@@ -1,0 +1,5 @@
+exports.CONMODUS_PORT = 80;
+exports.CONMODUS_BUNDLES_PORT = 4001;
+exports.CONMODUS_TIMEOUT = 1000;
+exports.CONMODUS_MAX_RENDERS = 10;
+exports.CONMODUS_REACT_ROOT = 'react-root';

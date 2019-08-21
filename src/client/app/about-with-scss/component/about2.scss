@@ -1,0 +1,13 @@
+@import './my-vars';
+
+.bar {
+    padding: $size;
+    margin: $size;
+    background-color: green;
+    display: flex;
+    box-sizing: border-box;
+    position: sticky;
+    &:hover {
+        color: orange;
+    }
+}

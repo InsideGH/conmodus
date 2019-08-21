@@ -1,0 +1,82 @@
+{
+    "env": {
+        "node": {
+            "plugins": [
+                "@babel/plugin-proposal-class-properties",
+                "@babel/plugin-transform-runtime",
+                [
+                    "css-modules-transform",
+                    {
+                        "extensions": [".scss", ".css"]
+                    }
+                ],
+                [
+                    "babel-plugin-inline-import",
+                    {
+                        "extensions": [".html"]
+                    }
+                ],
+                "babel-plugin-styled-components",
+                "@babel/plugin-syntax-dynamic-import",
+                "@loadable/babel-plugin"
+            ],
+            "presets": [
+                [
+                    "@babel/preset-env",
+                    {
+                        "targets": {
+                            "ie": "11"
+                        }
+                    }
+                ],
+                "@babel/preset-react"
+            ]
+        },
+        "dev": {
+            "plugins": [
+                "react-hot-loader/babel",
+                "@babel/plugin-proposal-class-properties",
+                "@babel/plugin-transform-runtime",
+                [
+                    "babel-plugin-styled-components",
+                    {
+                        "ssr": false
+                    }
+                ],
+                "@babel/plugin-syntax-dynamic-import",
+                "@loadable/babel-plugin"
+            ],
+            "presets": [
+                [
+                    "@babel/preset-env",
+                    {
+                        "targets": {
+                            "ie": "11"
+                        }
+                    }
+                ],
+                "@babel/preset-react"
+            ]
+        },
+        "prod": {
+            "plugins": [
+                "@babel/plugin-proposal-class-properties",
+                "@babel/plugin-transform-runtime",
+                "babel-plugin-styled-components",
+                "@babel/plugin-syntax-dynamic-import",
+                "@loadable/babel-plugin"
+            ],
+            "presets": [
+                [
+                    "@babel/preset-env",
+                    {
+                        "targets": {
+                            "ie": "11"
+                        }
+                    }
+                ],
+                "@babel/preset-react"
+            ]
+        }
+    }
+}
