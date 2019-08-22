@@ -1,44 +1,58 @@
-# Local (without docker)
-clean:
-	npm run clean
-	
+# 'up' with docker
 dev:
-	npm run dev
-
-devssr:
-	npm run dev:ssr
-
-prod:
-	npm run prod
-
-# 'Up' with docker
-docker_dev:
 	docker-compose -f docker-compose-dev.yml up -d
 
-docker_devssr:
+devssr:
 	docker-compose -f docker-compose-devssr.yml up -d
 
-docker_prod:
+prod:
 	docker-compose -f docker-compose-prod.yml up -d
 
 
-# 'Stop' with docker
-docker_dev_stop:
+# 'stop' with docker
+dev_stop:
 	docker-compose -f docker-compose-dev.yml stop
 
-docker_devssr_stop:
+devssr_stop:
 	docker-compose -f docker-compose-devssr.yml stop
 
-docker_prod_stop:
+prod_stop:
 	docker-compose -f docker-compose-prod.yml stop
 
 
-# 'Logs' with docker
-docker_dev_logs:
+# 'logs' with docker
+dev_logs:
 	docker-compose -f docker-compose-dev.yml logs -f
 
-docker_devssr_logs:
+devssr_logs:
 	docker-compose -f docker-compose-devssr.yml logs -f
 
-docker_prod_logs:
+prod_logs:
 	docker-compose -f docker-compose-prod.yml logs -f
+
+
+# 'build' with docker
+dev_build:
+	docker-compose -f docker-compose-dev.yml build
+
+devssr_build:
+	docker-compose -f docker-compose-devssr.yml build
+
+prod_build:
+	docker-compose -f docker-compose-prod.yml build
+
+
+# 'ps with docker
+dev_ps:
+	docker-compose -f docker-compose-dev.yml ps
+
+devssr_ps:
+	docker-compose -f docker-compose-devssr.yml ps
+
+prod_ps:
+	docker-compose -f docker-compose-prod.yml ps
+
+
+# general 
+lint:
+	cd services/frontend; make lint; cd -

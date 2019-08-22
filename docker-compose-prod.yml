@@ -1,17 +1,17 @@
 version: '3.7'
 services:
 
-  conmodus_prod:
+  frontend_prod:
     build:
-      context: .
+      context: ./services/frontend
       dockerfile: Dockerfile.prod
     ports:
       - "80:80"
     networks:
-      - conmodus
+      - net_a
     environment:
       NODE_ENV: production
       LOG_LEVEL: info
 
 networks:
-  conmodus:
+  net_a:

@@ -1,3 +1,4 @@
+/* global process, __dirname*/
 require('@babel/polyfill');
 const path = require('path');
 const express = require('express');

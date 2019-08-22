@@ -1,19 +1,19 @@
 version: '3.7'
 services:
 
-  conmodus_dev:
+  frontend_dev:
     build:
-      context: .
+      context: ./services/frontend
       dockerfile: Dockerfile.dev
     ports:
       - "80:80"
     networks:
-      - conmodus
+      - net_a
     environment:
       NODE_ENV: development
       LOG_LEVEL: debug
     volumes:
-      - ./src:/app/src
+      - ./services/frontend/src:/app/src
 
 networks:
-  conmodus:
+  net_a:
