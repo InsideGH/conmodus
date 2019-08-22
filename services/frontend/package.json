@@ -17,7 +17,8 @@
         "prod:eslint:src": "eslint src",
         "clean:client": "rm -rf dist",
         "clean:server": "rm -rf dist-server",
-        "clean": "npm run clean:client && npm run clean:server "
+        "clean": "npm run clean:client && npm run clean:server ",
+        "lint": "eslint src"
     },
     "keywords": [],
     "author": "",

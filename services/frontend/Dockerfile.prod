@@ -8,7 +8,9 @@ WORKDIR /app
 
 COPY . /app/
 
-RUN npm install && npm run prod:build
+RUN npm install
+
+RUN npm run prod:build
 
 WORKDIR /app/dist-server
 
