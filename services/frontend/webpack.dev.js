@@ -2,6 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const config = require('./src/config');
+const webpack = require('webpack');
 
 module.exports = {
     entry: './src/conmodus/client-dev.js',
@@ -92,6 +93,9 @@ module.exports = {
             filename: '[name].css',
             chunkFilename: '[id].css',
         }),
+        new webpack.DefinePlugin({
+            'process.env.API_GATEWAY': JSON.stringify(process.env.API_GATEWAY_CLIENT),
+        }),
     ],
     devServer: {
         hot: true,
@@ -102,5 +106,6 @@ module.exports = {
             warnings: true,
             errors: true,
         },
+        disableHostCheck: true,
     },
 };

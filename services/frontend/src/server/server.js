@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const config = require('../config');
-const api = require('../api/routes');
+const proxy = require('http-proxy-middleware');
 
 import indexHtml from '../html/index.html';
 import Client from '../conmodus/client-serverside';
@@ -22,11 +22,8 @@ expressApp.use('/favicon.ico', express.static(path.join(__dirname, 'assets/favic
 if (process.env.NODE_ENV == 'production') {
     expressApp.use('/dist', express.static(path.join(__dirname, '../../dist')));
 } else {
-    const proxy = require('http-proxy-middleware');
     expressApp.use('/dist', proxy({ target: `http://localhost:${config.CONMODUS_BUNDLES_PORT}` }));
 }
-
-expressApp.use('/api', api);
 
 const ssrConfig = {
     timeout: config.CONMODUS_TIMEOUT,

@@ -1,19 +1,42 @@
 version: '3.7'
 services:
 
-  frontend_dev:
+  frontend:
     build:
       context: ./services/frontend
       dockerfile: Dockerfile.dev
-    ports:
-      - "80:80"
+    image: conmodus_frontend:dev
+    networks:
+      - net_a
+    environment:
+      NODE_ENV: development
+      LOG_LEVEL: debug
+      API_GATEWAY_CLIENT: /api-gateway
+    volumes:
+      - ./services/frontend/src:/app/src
+
+  api-gateway:
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile.dev
+    image: conmodus_api_gateway:dev
     networks:
       - net_a
     environment:
       NODE_ENV: development
       LOG_LEVEL: debug
     volumes:
-      - ./services/frontend/src:/app/src
+      - ./services/api-gateway/src:/app/src
+
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
+    networks:
+      - net_a
+    volumes:
+      - ./services/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./services/nginx/data:/data
 
 networks:
   net_a:

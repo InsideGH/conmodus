@@ -3,6 +3,7 @@ const LoadablePlugin = require('@loadable/webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const cssnano = require('cssnano');
+const webpack = require('webpack');
 
 module.exports = {
     entry: './src/conmodus/client-prod.js',
@@ -59,6 +60,9 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: '[name].css',
             chunkFilename: '[id].css',
+        }),
+        new webpack.DefinePlugin({
+            'process.env.API_GATEWAY': JSON.stringify(process.env.API_GATEWAY_CLIENT),
         }),
     ],
 };

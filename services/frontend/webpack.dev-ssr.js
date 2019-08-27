@@ -3,6 +3,7 @@ const LoadablePlugin = require('@loadable/webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const config = require('./src/config');
+const webpack = require('webpack');
 
 module.exports = {
     entry: './src/conmodus/client-dev-ssr.js',
@@ -78,10 +79,14 @@ module.exports = {
             filename: '[name].css',
             chunkFilename: '[id].css',
         }),
+        new webpack.DefinePlugin({
+            'process.env.API_GATEWAY': JSON.stringify(process.env.API_GATEWAY_CLIENT),
+        }),
     ],
     devServer: {
         hot: true,
         port: config.CONMODUS_BUNDLES_PORT,
         host: '0.0.0.0',
+        disableHostCheck: true
     },
 };

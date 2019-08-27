@@ -20,6 +20,17 @@ prod_stop:
 	docker-compose -f docker-compose-prod.yml stop
 
 
+# 'restart' with docker
+dev_restart:
+	docker-compose -f docker-compose-dev.yml restart
+
+devssr_restart:
+	docker-compose -f docker-compose-devssr.yml restart
+
+prod_restart:
+	docker-compose -f docker-compose-prod.yml restart
+
+
 # 'logs' with docker
 dev_logs:
 	docker-compose -f docker-compose-dev.yml logs -f
@@ -56,3 +67,13 @@ prod_ps:
 # general 
 lint:
 	cd services/frontend; make lint; cd -
+	cd services/api; make lint; cd -
+
+clean:
+	docker rmi $(docker images -f "dangling=true" -q)
+	docker rm $(docker ps -f status=exited -aq)
+	docker volume rm $(docker volume ls -qf dangling=true)
+	docker container exec conmodus_nginx_dev_1 nginx -s reload
+
+nginx_reload:
+	docker container exec conmodus_nginx_1 nginx -s reload

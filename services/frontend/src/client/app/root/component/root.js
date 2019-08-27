@@ -12,7 +12,7 @@ import ExampleAboutWithStyled from '../../about-with-styled/component/about-with
 import ExampleAboutWithLoadable from '../../about-with-loadable/component/about-with-loadable';
 import ExampleRedirect from '../../redirect/component/redirect';
 import ExampleAboutWithHelmet from '../../about-with-helmet/component/about-with-helmet';
-// import ExampleWeather from '../../weather/component/weather';
+import ExampleWeather from '../../weather/component/weather';
 
 import ExampleContext from '../../context/component/example-context';
 
@@ -60,9 +60,9 @@ const App = () => {
                     <li>
                         <Link to="/about-with-helmet/">About with helmet</Link>
                     </li>
-                    {/* <li>
-                        <Link to="/weather/">Weather (api)</Link>
-                    </li> */}
+                    <li>
+                        <Link to="/weather-today/">Weather today (api)</Link>
+                    </li>
                     <li>
                         <Link to="/context/">Context</Link>
                     </li>
@@ -82,7 +82,7 @@ const App = () => {
                 <Route path="/about-with-loadable" exact component={ExampleAboutWithLoadable} />
                 <Route path="/redirect" exact component={ExampleRedirect} />
                 <Route path="/about-with-helmet" exact component={ExampleAboutWithHelmet} />
-                {/* <Route path="/weather" exact component={ExampleWeather} /> */}
+                <Route path="/weather-today" exact component={ExampleWeather} />
                 <Route path="/context" exact component={ExampleContext} />
                 <Route render={props => <h3>Not found</h3>} />
             </Switch>

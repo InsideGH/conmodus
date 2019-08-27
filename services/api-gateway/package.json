@@ -1,0 +1,27 @@
+{
+    "name": "conmodus-api-gateway",
+    "version": "1.0.0",
+    "description": "API gateway service",
+    "private": true,
+    "scripts": {
+        "start": "npm run dev",
+        "dev": "nodemon -e js,json --watch src --exec \"NODE_ENV=development LOG_LEVEL=debug node src/server.js | ./node_modules/.bin/pino-pretty\"",
+        "prod": "NODE_ENV=production LOG_LEVEL=info node src/server.js",
+        "lint": "eslint src"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^0.19.0",
+        "body-parser": "^1.19.0",
+        "express": "^4.17.1",
+        "express-pino-logger": "^4.0.0",
+        "pino": "^5.12.6"
+    },
+    "devDependencies": {
+        "eslint": "^5.16.0",
+        "nodemon": "^1.19.1",
+        "pino-pretty": "^3.2.0"
+    }
+}

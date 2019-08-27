@@ -5,9 +5,6 @@ clean:
 dev:
 	npm run dev
 
-devssr:
-	npm run dev:ssr
-
 prod:
 	npm run prod
 
