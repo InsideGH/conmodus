@@ -13,6 +13,8 @@ services:
       LOG_LEVEL: info
       API_GATEWAY: http://api-gateway
       API_GATEWAY_CLIENT: /api-gateway
+      GRAPHQL_ENDPOINT: http://api-gateway/graphql
+      GRAPHQL_ENDPOINT_CLIENT: /api-gateway/graphql
 
   api-gateway:
     build:

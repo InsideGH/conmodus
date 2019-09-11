@@ -13,6 +13,7 @@ import ExampleAboutWithLoadable from '../../about-with-loadable/component/about-
 import ExampleRedirect from '../../redirect/component/redirect';
 import ExampleAboutWithHelmet from '../../about-with-helmet/component/about-with-helmet';
 import ExampleWeather from '../../weather/component/weather';
+import ExampleWeatherGraphql from '../../weather-graphql/component/weather-graphql';
 
 import ExampleContext from '../../context/component/example-context';
 
@@ -64,6 +65,9 @@ const App = () => {
                         <Link to="/weather-today/">Weather today (api)</Link>
                     </li>
                     <li>
+                        <Link to="/weather-graphql/">Weather (graphql)</Link>
+                    </li>
+                    <li>
                         <Link to="/context/">Context</Link>
                     </li>
                 </ul>
@@ -83,6 +87,7 @@ const App = () => {
                 <Route path="/redirect" exact component={ExampleRedirect} />
                 <Route path="/about-with-helmet" exact component={ExampleAboutWithHelmet} />
                 <Route path="/weather-today" exact component={ExampleWeather} />
+                <Route path="/weather-graphql" exact component={ExampleWeatherGraphql} />
                 <Route path="/context" exact component={ExampleContext} />
                 <Route render={props => <h3>Not found</h3>} />
             </Switch>

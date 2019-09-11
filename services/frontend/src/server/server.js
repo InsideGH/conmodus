@@ -31,12 +31,12 @@ const ssrConfig = {
     indexHtml,
     reactRoot: config.CONMODUS_REACT_ROOT,
     Client,
-    makeStore: makeStore,
+    makeStore,
 };
 
 expressApp.get('*', async (req, res) => {
     try {
-        const result = await ssr(req.url, ssrConfig);
+        const result = await ssr(req, ssrConfig);
 
         if (result.redirect) {
             return res.redirect(result.redirect);
