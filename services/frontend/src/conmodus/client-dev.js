@@ -7,7 +7,7 @@ import ApolloClient from 'apollo-client';
 import Client from './client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createHttpLink } from 'apollo-link-http';
-import { GRAPHQL_ENDPOINT } from '../client/api-config';
+import { GRAPHQL_ENDPOINT } from '../client/config';
 
 const apolloClient = new ApolloClient({
     cache: new InMemoryCache(),

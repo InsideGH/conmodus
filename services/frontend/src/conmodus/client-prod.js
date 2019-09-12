@@ -9,7 +9,7 @@ import win from './utils/win';
 import dom from './utils/dom';
 import { loadableReady } from '@loadable/component';
 import { createHttpLink } from 'apollo-link-http';
-import { GRAPHQL_ENDPOINT } from '../client/api-config';
+import { GRAPHQL_ENDPOINT } from '../client/config';
 
 const store = makeStore(win.getValue('__CONMODUS_REDUX_DATA'));
 dom.removeChild('__CONMODUS_REDUX_DATA');

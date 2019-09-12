@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 import { Context } from '../../../conmodus-provider';
-import {API_GATEWAY} from '../../../api-config';
+import {API_ENDPOINT} from '../../../config';
 
 class ExampleWeather extends React.Component {
     static contextType = Context;
@@ -13,7 +13,7 @@ class ExampleWeather extends React.Component {
             `weather`,
             () =>
                 new Promise(async resolve => {
-                    const res = await axios.get(`${API_GATEWAY}/weather`);
+                    const res = await axios.get(`${API_ENDPOINT}/weather`);
                     resolve(res.data);
                 })
         );

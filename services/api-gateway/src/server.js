@@ -10,14 +10,14 @@ expressApp.use(bodyParser.json());
 expressApp.use(bodyParser.urlencoded({ extended: true }));
 expressApp.use(expressLogger);
 
-apolloApi.applyMiddleware({ app: expressApp, path: '/graphql' });
-expressApp.use('/', routes);
+apolloApi.applyMiddleware({ app: expressApp, path: config.GRAPHQL_ENDPOINT });
+expressApp.use(config.API_ENDPOINT, routes);
 
-const server = expressApp.listen(config.API_GATEWAY_PORT, err => {
+const server = expressApp.listen(80, err => {
     if (err) {
         throw err;
     }
-    logger.info(`Api started on port ${config.API_GATEWAY_PORT}`);
+    logger.info('Api started on port 80');
 });
 
 process.on('SIGTERM', function() {

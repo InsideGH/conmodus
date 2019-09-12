@@ -1,7 +1,7 @@
-const config = require('../config');
+const config = require('../server/config');
 
 let cssStyles;
-if (process.env.NODE_ENV == 'production') {
+if (config.NODE_ENV == 'production') {
     const fs = require('fs');
     const path = require('path');
 
@@ -16,7 +16,7 @@ if (process.env.NODE_ENV == 'production') {
 }
 
 const getCssStyles = async () => {
-    if (process.env.NODE_ENV == 'production') {
+    if (config.NODE_ENV == 'production') {
         return cssStyles;
     } else {
         const axios = require('axios');

@@ -62,7 +62,7 @@ module.exports = {
             chunkFilename: '[id].css',
         }),
         new webpack.DefinePlugin({
-            'process.env.API_GATEWAY': JSON.stringify(process.env.API_GATEWAY_CLIENT),
+            'process.env.API_ENDPOINT': JSON.stringify(process.env.API_ENDPOINT_CLIENT),
             'process.env.GRAPHQL_ENDPOINT': JSON.stringify(process.env.GRAPHQL_ENDPOINT_CLIENT),
         }),
     ],

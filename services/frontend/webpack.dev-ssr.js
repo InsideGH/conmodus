@@ -2,7 +2,6 @@ const autoprefixer = require('autoprefixer');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const config = require('./src/config');
 const webpack = require('webpack');
 
 module.exports = {
@@ -80,13 +79,13 @@ module.exports = {
             chunkFilename: '[id].css',
         }),
         new webpack.DefinePlugin({
-            'process.env.API_GATEWAY': JSON.stringify(process.env.API_GATEWAY_CLIENT),
+            'process.env.API_ENDPOINT': JSON.stringify(process.env.API_ENDPOINT_CLIENT),
             'process.env.GRAPHQL_ENDPOINT': JSON.stringify(process.env.GRAPHQL_ENDPOINT_CLIENT),
         }),
     ],
     devServer: {
         hot: true,
-        port: config.CONMODUS_BUNDLES_PORT,
+        port: process.env.CONMODUS_BUNDLES_PORT,
         host: '0.0.0.0',
         disableHostCheck: true,
     },

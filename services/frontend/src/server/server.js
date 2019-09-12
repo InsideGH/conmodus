@@ -2,7 +2,7 @@ require('@babel/polyfill');
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const config = require('../config');
+const config = require('./config');
 const proxy = require('http-proxy-middleware');
 
 import indexHtml from '../html/index.html';
@@ -19,7 +19,7 @@ expressApp.use(expressLogger);
 
 expressApp.use('/favicon.ico', express.static(path.join(__dirname, 'assets/favicon.ico')));
 
-if (process.env.NODE_ENV == 'production') {
+if (config.NODE_ENV == 'production') {
     expressApp.use('/dist', express.static(path.join(__dirname, '../../dist')));
 } else {
     expressApp.use('/dist', proxy({ target: `http://localhost:${config.CONMODUS_BUNDLES_PORT}` }));
@@ -48,11 +48,11 @@ expressApp.get('*', async (req, res) => {
     }
 });
 
-const server = expressApp.listen(config.CONMODUS_PORT, err => {
+const server = expressApp.listen(80, err => {
     if (err) {
         throw err;
     }
-    logger.info(`ExpressApp started on port ${config.CONMODUS_PORT}`);
+    logger.info('ExpressApp started on port 80');
 });
 
 process.on('SIGTERM', function() {
