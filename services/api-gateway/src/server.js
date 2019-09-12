@@ -3,12 +3,14 @@ const bodyParser = require('body-parser');
 const { logger, expressLogger } = require('./logger');
 const routes = require('./routes');
 const config = require('./config');
+const { apolloApi } = require('./middlewares/apollo');
 
 const expressApp = express();
 expressApp.use(bodyParser.json());
 expressApp.use(bodyParser.urlencoded({ extended: true }));
 expressApp.use(expressLogger);
 
+apolloApi.applyMiddleware({ app: expressApp, path: '/graphql' });
 expressApp.use('/', routes);
 
 const server = expressApp.listen(config.API_GATEWAY_PORT, err => {

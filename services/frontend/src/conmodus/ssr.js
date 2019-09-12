@@ -4,12 +4,19 @@ import { ServerStyleSheet } from 'styled-components';
 import { ChunkExtractor } from '@loadable/server';
 import { Helmet } from 'react-helmet';
 
+import ApolloClient from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { getDataFromTree } from '@apollo/react-ssr';
+import { createHttpLink } from 'apollo-link-http';
+import fetch from 'node-fetch';
+
 import { ssrResolveThunks } from './provider/thunk-handler/server';
 import { ssrResolveData, getTasksState } from './provider/ssr-data-handler/server';
 import htmlTemplate from './html-template';
 
 const getLoadableStats = require('./loadable-stats');
 const getCssStyles = require('./css-styles');
+import { GRAPHQL_ENDPOINT } from '../client/api-config';
 
 const createTime = timeout => {
     const timeStart = process.hrtime();
@@ -23,7 +30,7 @@ const createTime = timeout => {
     };
 };
 
-const renderer = async ({ url, config, stats }) => {
+const renderer = async ({ req, config, stats }) => {
     const time = createTime(config.timeout);
     let markup;
     let index;
@@ -32,12 +39,19 @@ const renderer = async ({ url, config, stats }) => {
     let extractor;
 
     const store = config.makeStore();
+    const apolloClient = new ApolloClient({
+        ssrMode: true,
+        cache: new InMemoryCache(),
+        link: createHttpLink({ uri: GRAPHQL_ENDPOINT, fetch: fetch }),
+    });
+
     const entries = {
         thunks: [],
         ssrDataList: [],
     };
     const context = {};
     let helmet;
+    let apolloState = {};
 
     for (index = 0; index < config.maxRenders; index++) {
         if (index != 0) {
@@ -48,7 +62,13 @@ const renderer = async ({ url, config, stats }) => {
         sheet = new ServerStyleSheet();
         extractor = new ChunkExtractor({ stats });
 
-        markup = renderToString(<config.Client url={url} entries={entries} context={context} store={store} sheet={sheet} extractor={extractor} />);
+        const App = (
+            <config.Client url={req.url} entries={entries} context={context} store={store} sheet={sheet} extractor={extractor} apolloClient={apolloClient} />
+        );
+        await getDataFromTree(App);
+        apolloState = apolloClient.extract();
+
+        markup = renderToString(App);
         helmet = Helmet.renderStatic();
 
         timeUp = time.isTimeout();
@@ -68,11 +88,12 @@ const renderer = async ({ url, config, stats }) => {
         styleTags: sheet.getStyleTags(),
         extractor,
         helmet,
+        apollo: apolloState,
     };
 
     console.log({
         render: {
-            url,
+            url: req.url,
             maxFrames: config.maxRenders,
             maxTime: config.timeout,
             timeup: timeUp ? 'yes' : 'no',
@@ -86,6 +107,7 @@ const renderer = async ({ url, config, stats }) => {
             total: entries.ssrDataList.length,
             resolved: entries.ssrDataList.filter(e => e.resolved).length,
         },
+        apollo: apolloState,
         redux_state: state.redux,
         tasks_state: JSON.stringify(state.tasks, null, 4),
         style_tags_state: state.styleTags,
@@ -137,12 +159,12 @@ const validate = (url, config) => {
     }
 };
 
-const ssr = async (url, config) => {
-    validate(url, config);
+const ssr = async (req, config) => {
+    validate(req.url, config);
 
     const stats = await getLoadableStats();
 
-    const { markup, state, context } = await renderer({ url, config, stats });
+    const { markup, state, context } = await renderer({ req, config, stats });
 
     if (context.url) {
         return {
@@ -167,7 +189,11 @@ const ssr = async (url, config) => {
         .insertHead(helmetHeadData)
         .insertHtmlOpeningTag(state.helmet.htmlAttributes.toString())
         .insertBodyOpeningTag(state.helmet.bodyAttributes.toString())
-        .insertStateHead([{ id: '__CONMODUS_REDUX_DATA', data: state.redux }, { id: '__CONMODUS_TASK_DATA', data: state.tasks }])
+        .insertStateHead([
+            { id: '__CONMODUS_REDUX_DATA', data: state.redux },
+            { id: '__CONMODUS_TASK_DATA', data: state.tasks },
+            { id: '__APOLLO_STATE__', data: state.apollo },
+        ])
         .html();
 
     return {
