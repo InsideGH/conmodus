@@ -13,12 +13,18 @@ services:
     environment:
       NODE_ENV: development
       LOG_LEVEL: debug
-      API_GATEWAY: http://api-gateway
-      API_GATEWAY_CLIENT: /api-gateway
+      API_ENDPOINT: http://api-gateway/api
+      API_ENDPOINT_CLIENT: /api-gateway/api
       GRAPHQL_ENDPOINT: http://api-gateway/graphql
       GRAPHQL_ENDPOINT_CLIENT: /api-gateway/graphql
+      CONMODUS_BUNDLES_PORT: 4001
+      CONMODUS_TIMEOUT: 1000
+      CONMODUS_MAX_RENDERS: 10
+      CONMODUS_REACT_ROOT: react-root
     volumes:
       - ./services/frontend/src:/app/src
+      - ./services/frontend/webpack.dev-ssr.js:/app/webpack.dev-ssr.js
+      - ./services/frontend/package.json:/app/package.json
 
   api-gateway:
     build:
@@ -30,6 +36,8 @@ services:
     environment:
       NODE_ENV: development
       LOG_LEVEL: debug
+      GRAPHQL_ENDPOINT: /graphql
+      API_ENDPOINT: /api
     volumes:
       - ./services/api-gateway/src:/app/src
 

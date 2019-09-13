@@ -11,23 +11,25 @@ services:
     environment:
       NODE_ENV: development
       LOG_LEVEL: debug
-      API_GATEWAY_CLIENT: /api-gateway
+      API_ENDPOINT_CLIENT: /api-gateway/api
       GRAPHQL_ENDPOINT_CLIENT: /api-gateway/graphql
     volumes:
       - ./services/frontend/src:/app/src
+      - ./services/frontend/webpack.dev.js:/app/webpack.dev.js
+      - ./services/frontend/package.json:/app/package.json
 
   api-gateway:
     build:
       context: ./services/api-gateway
       dockerfile: Dockerfile.dev
-    ports:
-      - "4001:80"
     image: conmodus_api_gateway:dev
     networks:
       - net_a
     environment:
       NODE_ENV: development
       LOG_LEVEL: debug
+      GRAPHQL_ENDPOINT: /graphql
+      API_ENDPOINT: /api
     volumes:
       - ./services/api-gateway/src:/app/src
 

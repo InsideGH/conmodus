@@ -16,7 +16,7 @@ import htmlTemplate from './html-template';
 
 const getLoadableStats = require('./loadable-stats');
 const getCssStyles = require('./css-styles');
-import { GRAPHQL_ENDPOINT } from '../client/api-config';
+import { GRAPHQL_ENDPOINT } from '../client/config';
 
 const createTime = timeout => {
     const timeStart = process.hrtime();
