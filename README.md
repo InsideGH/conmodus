@@ -1,14 +1,32 @@
-# Conmodus
+# CONMODUS
 
 React SSR with docker.
 
-## Stuff
+## GET STARTED
+* Client side only development
+    * make dev (in one terminal)
+    * make dev_logs (in another terminal)
+    * To tear down, CTRL-C the dev_logs terminal and do make dev_stop
 
-### Microservices
+* Development with SSR
+    * make devssr (in one terminal)
+    * make devssr_logs (in another terminal)
+    * To tear down, CTRL-C the devssr_logs terminal and do make devssr_stop
+
+* Production
+    * make prod (in one terminal)
+    * make prod_logs (in another terminal)
+    * To tear down, CTRL-C the prod_logs terminal and do make prod_stop
+
+* If you change the nginx configuration, you can do 'make nginx_reload' to reload nginx.
+
+
+### MICROSERVICES
 
 * FRONTEND
 * API-GATEWAY
 * NGINX
+
 
 ### FRONTEND
 There are three variants
@@ -30,16 +48,19 @@ Following features are supported for __both__ 'client side only rendering' and '
 * Styled components
 * Configurable render loop with timeout and max number of renders to handle nested async tasks and loadable components.
 
+
 ### API-GATEWAY
 
 * REST based API
 * Graphql endpoint
 
+
 ### NGINX
 
 * Routing request from client to API-GATEWAY from both browser and frontend server side rendering.
 
-### Docker
+
+### DOCKER
 
 There are three docker compose files
 * docker-compose-dev.yml
@@ -51,7 +72,8 @@ There are three docker compose files
 * docker-compose-prod.yml
     * React SSR production.
 
-### INSTRUCTIONS
+
+### ALL COMMANDS AVAILABLE
 To build
 * make dev_build
 * make devssr_build
