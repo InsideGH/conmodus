@@ -7,7 +7,7 @@ import withApolloClient from '../../../apollo/with-apollo-client';
 
 import PropTypes from 'prop-types';
 
-function WeatherHooks() {
+function WeatherHooksA() {
     const { loading, error, data } = useQuery(gql`
         {
             weather {
@@ -21,64 +21,57 @@ function WeatherHooks() {
     if (loading) return <p>Loading weather...</p>;
     if (error) return <p>Error :(</p>;
 
+    /**
+     * Apollo server side rendering will cache both of these queries.
+     * If the NameHooksB component isn't rendered, it's not queried though.
+     */
     return (
         <div>
-            <h3>Weather fetched from /graphql provider (hook)</h3>
+            <h3>A</h3>
             <h5>{`Summary: ${data.weather.summary}`}</h5>
             <h5>{`Date: ${data.weather.date}`}</h5>
+            {data.weather.summary == 'Sunny and warm with graphql!' ? <NameHooksB summary={data.weather.summary} /> : null}
         </div>
     );
 }
 
-class WeatherClass extends React.Component {
-    static contextType = Context;
+function NameHooksB({ summary }) {
+    const { loading, error, data } = useQuery(
+        gql`
+            query Name($breed: String!) {
+                name(breed: $breed) {
+                    id
+                    firstName
+                    lastName
+                }
+            }
+        `,
+        {
+            variables: { breed: summary },
+        }
+    );
 
-    constructor(props, context) {
-        super(props, context);
-        this.context.ssrData.register(
-            `weather-graphql`,
-            () =>
-                new Promise(async resolve => {
-                    const res = await this.props.client.query({
-                        query: gql`
-                            {
-                                weather {
-                                    id
-                                    summary
-                                    date
-                                }
-                            }
-                        `,
-                    });
-                    resolve(res.data.weather);
-                })
-        );
-    }
+    if (loading) return <p>Loading name...</p>;
+    if (error) return <p>Error :(</p>;
 
-    render() {
-        const { summary, date } = this.context.ssrData.store['weather-graphql'] || {};
-        return (
-            <div>
-                <h3>Weather fetched from /graphql client (class)</h3>
-                <h5>{summary}</h5>
-                <h5>{date}</h5>
-            </div>
-        );
-    }
-
-    static propTypes = {
-        client: PropTypes.any.isRequired,
-    };
+    return (
+        <div>
+            <h3>B</h3>
+            <h5>{`firstName: ${data.name.firstName}`}</h5>
+            <h5>{`Date: ${data.name.lastName}`}</h5>
+        </div>
+    );
 }
 
-const WeatherClassWithClient = withApolloClient(WeatherClass);
+NameHooksB.propTypes = {
+    summary: PropTypes.string.isRequired,
+};
 
 class ExampleWeatherGraphql extends React.Component {
     render() {
         return (
             <>
-                <WeatherClassWithClient />
-                <WeatherHooks />
+                <WeatherHooksA />
             </>
         );
     }
