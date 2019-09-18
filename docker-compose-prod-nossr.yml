@@ -4,8 +4,8 @@ services:
   frontend:
     build:
       context: ./services/frontend
-      dockerfile: Dockerfile.prod
-    image: conmodus_frontend:prod
+      dockerfile: Dockerfile.prod-nossr
+    image: conmodus_frontend:prod-nossr
     networks:
       - net_a
     environment:
@@ -15,16 +15,13 @@ services:
       API_ENDPOINT_CLIENT: /api-gateway/api
       GRAPHQL_ENDPOINT: http://api-gateway/graphql
       GRAPHQL_ENDPOINT_CLIENT: /api-gateway/graphql
-      CONMODUS_TIMEOUT: 1000
-      CONMODUS_MAX_RENDERS: 10
-      CONMODUS_REACT_ROOT: react-root
-      CONMODUS_MODE: ssr
+      CONMODUS_MODE: nossr
 
   api-gateway:
     build:
       context: ./services/api-gateway
       dockerfile: Dockerfile.prod
-    image: conmodus_api_gateway:prod
+    image: conmodus_api_gateway:prod-nossr
     networks:
       - net_a
     environment:

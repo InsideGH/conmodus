@@ -21,6 +21,7 @@ services:
       CONMODUS_TIMEOUT: 1000
       CONMODUS_MAX_RENDERS: 10
       CONMODUS_REACT_ROOT: react-root
+      CONMODUS_MODE: ssr
     volumes:
       - ./services/frontend/src:/app/src
       - ./services/frontend/webpack.dev-ssr.js:/app/webpack.dev-ssr.js

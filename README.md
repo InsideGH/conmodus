@@ -31,6 +31,13 @@ Set the following in you etc/hosts file.
     * To tear down, CTRL-C the prod_logs terminal and do make prod_stop
 ```
 
+> Production without SSR (static serve)
+```
+    * make prod-nossr (in one terminal)
+    * make prod-nossr_logs (in another terminal)
+    * To tear down, CTRL-C the prod-nossr_logs terminal and do make prod-nossr_stop
+```
+
 * If you change the nginx configuration, you can do 'make nginx_reload' to reload nginx.
 
 ---
@@ -47,11 +54,15 @@ These are the three services that are created.
 ---
 ### FRONTEND
 
-There are three variants
+There are four variants
 
-* Client side rendering (dev)
-* Server side rendering (devssr)
-* Production (prod)
+> Client side rendering (dev)
+
+> Server side rendering (devssr)
+
+> Production (prod)
+
+> Production without SSR but instead static serving (prod-nossr)
 
 Following features are supported for __both__ 'client side only rendering' and 'SSR'. Both support hot reloading.
 
@@ -103,21 +114,24 @@ Folder | Content
 `src/conmodus/client-dev-ssr.js` | Referenced from the `webpack.dev-ssr.js` file.
 `src/conmodus/client-dev.js` | Referenced from the `webpack.dev.js` file.
 `src/conmodus/client-prod.js` | Referenced from the `webpack.prod.js` file.
+`src/conmodus/client-prod-nossr.js` | Referenced from the `webpack.prod-nossr.js` file.
 `src/conmodus/client-serverside.js` | Used by server (`src/server/server.js -> src/conmodus/ssr.js`) when rendering on server.
 `src/conmodus/css-styles.js` | Helper to create css style string to insert into html when SSR.
 `src/conmodus/html-template.js` | Since no template engine is used, this helper is used to insert data into the html file (`src/conmodus/html/index.html`) when SSR.
 `src/conmodus/loadable-stats.js` | Helper to create bundle script tags to insert into html when SSR.
 `src/conmodus/ssr.js` | The SSR.
-`src/html/index.html` | The html file referenced from `webpack.dev.js` and server side rendering (both for devssr and prod)
+`src/html/index.html` | The html file referenced from `webpack.dev-ssr.js` and server side rendering (both for devssr and prod)
+`src/html/index-loading-spinner.html` | The html file referenced from `webpack.dev.js` and server static serving (both for dev and prod-nossr)
 `src/server` | The server folder.
 `src/server/assets` | Just the favicon.
 `src/server/config.js` | File that validates environment variable existens and exports them.
-`src/server/server.js` | The server main file.
+`src/server/server.js` | The server main file when SSR.
+`src/server/server-nossr.js` | The server main file when serving as static resource only.
 
 ---
 ### DOCKER
 
-There are three docker compose files
+There are four docker compose files
 * docker-compose-dev.yml
     >React client side only development with hot reloading.
 
@@ -127,6 +141,9 @@ There are three docker compose files
 * docker-compose-prod.yml
     >React SSR production.
 
+* docker-compose-prod-nossr.yml
+    >React static served client production.
+
 ---
 
 ### ALL COMMANDS AVAILABLE IN MAKEFILE
@@ -134,26 +151,31 @@ There are three docker compose files
 * make dev_build
 * make devssr_build
 * make prod_build
+* make prod-nossr_build
 
 >To start
 * make dev
 * make devssr
 * make prod
+* make prod-nossr
 
 >To show logs
 * make dev_logs
 * make devssr_logs
 * make prod_logs
+* make prod-nossr_logs
 
 >To stop
 * make dev_stop
 * make devssr_stop
 * make prod_stop
+* make prod-nossr_stop
 
 >To restart
 * make dev_restart
 * make devssr_restart
 * make prod_restart
+* make prod-nossr_restart
 
 >To reload nginx
 * make nginx_reload

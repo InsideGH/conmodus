@@ -37,13 +37,18 @@ module.exports = {
                         loader: MiniCssExtractPlugin.loader,
                         options: {
                             hmr: true,
-                            reloadAll: true,
                         },
                     },
-                    { loader: 'css-loader' },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true,
+                        },
+                    },
                     {
                         loader: 'postcss-loader',
                         options: {
+                            sourceMap: true,
                             plugins: [autoprefixer],
                         },
                     },
@@ -56,17 +61,27 @@ module.exports = {
                         loader: MiniCssExtractPlugin.loader,
                         options: {
                             hmr: true,
-                            reloadAll: true,
                         },
                     },
-                    { loader: 'css-loader' },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true,
+                        },
+                    },
                     {
                         loader: 'postcss-loader',
                         options: {
+                            sourceMap: true,
                             plugins: [autoprefixer],
                         },
                     },
-                    { loader: 'sass-loader' },
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            sourceMap: true,
+                        },
+                    },
                 ],
             },
         ],

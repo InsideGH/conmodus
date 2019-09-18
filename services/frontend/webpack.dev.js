@@ -86,7 +86,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: 'src/html/index.html',
+            template: 'src/html/index-loading-spinner.html',
         }),
         new MiniCssExtractPlugin({
             filename: '[name].css',

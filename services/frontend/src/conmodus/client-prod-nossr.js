@@ -1,5 +1,4 @@
 require('@babel/polyfill');
-import { hot } from 'react-hot-loader/root';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import makeStore from '../client/redux/make-store';
@@ -16,7 +15,6 @@ const apolloClient = new ApolloClient({
 });
 
 const store = makeStore();
-const HotDev = hot(Client);
 
 dom.removeChild('loading-container');
-ReactDOM.render(<HotDev store={store} apolloClient={apolloClient} />, document.getElementById('react-root'));
+ReactDOM.render(<Client store={store} apolloClient={apolloClient} />, document.getElementById('react-root'));
