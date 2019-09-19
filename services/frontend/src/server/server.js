@@ -6,7 +6,7 @@ const config = require('./config');
 
 import indexHtml from '../html/index.html';
 import Client from '../conmodus/client-serverside';
-import makeStore from '../client/redux/make-store';
+import {makeFreshStore} from '../client/redux/make-store';
 
 const ssr = require('../conmodus/ssr');
 
@@ -26,7 +26,7 @@ const ssrConfig = {
     indexHtml,
     reactRoot: config.CONMODUS_REACT_ROOT,
     Client,
-    makeStore,
+    makeFreshStore,
 };
 
 expressApp.get('*', async (req, res) => {

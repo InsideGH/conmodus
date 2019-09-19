@@ -2,7 +2,7 @@ require('@babel/polyfill');
 import { hot } from 'react-hot-loader/root';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import makeStore from '../client/redux/make-store';
+import store from '../client/redux/make-store';
 import ApolloClient from 'apollo-client';
 import Client from './client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -15,7 +15,6 @@ const apolloClient = new ApolloClient({
     link: createHttpLink({ uri: GRAPHQL_ENDPOINT }),
 });
 
-const store = makeStore();
 const HotDev = hot(Client);
 
 dom.removeChild('loading-container');

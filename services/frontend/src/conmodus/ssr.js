@@ -38,7 +38,7 @@ const renderer = async ({ req, config, stats }) => {
     let sheet;
     let extractor;
 
-    const store = config.makeStore();
+    const store = config.makeFreshStore();
     const apolloClient = new ApolloClient({
         ssrMode: true,
         cache: new InMemoryCache(),
@@ -154,8 +154,8 @@ const validate = (url, config) => {
     if (!config.Client) {
         throw new Error("Missing 'config.Client' -  react client.");
     }
-    if (!config.makeStore) {
-        throw new Error("Missing 'config.makeStore' -  function returning a redux store.");
+    if (!config.makeFreshStore) {
+        throw new Error("Missing 'config.makeFreshStore' -  function returning a fresh redux store.");
     }
 };
 
