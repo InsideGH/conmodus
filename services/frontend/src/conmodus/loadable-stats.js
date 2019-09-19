@@ -1,20 +1,17 @@
 const config = require('../server/config');
+const fs = require('fs');
+const path = require('path');
 
-let stats;
-if (config.NODE_ENV == 'production') {
-    const fs = require('fs');
-    const path = require('path');
-    stats = JSON.parse(fs.readFileSync(path.join(__dirname, '../../dist', 'loadable-stats.json'), 'utf-8'));
+function readStats() {
+    return JSON.parse(fs.readFileSync(path.join(__dirname, '../../dist', 'loadable-stats.json'), 'utf-8'));
 }
 
-const getLoadableStats = async () => {
+const cachedStats = (() => {
     if (config.NODE_ENV == 'production') {
-        return stats;
-    } else {
-        const axios = require('axios');
-        const { data: stats } = await axios.get(`http://localhost:${config.CONMODUS_BUNDLES_PORT}/dist/loadable-stats.json`);
-        return stats;
+        return readStats();
     }
-};
+})();
 
-module.exports = getLoadableStats;
+module.exports = async () => {
+    return config.NODE_ENV == 'production' ? cachedStats : readStats();
+};

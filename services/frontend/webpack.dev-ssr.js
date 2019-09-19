@@ -4,6 +4,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const webpack = require('webpack');
 
+if (!process.env.CONMODUS_BUNDLES_PORT) {
+    throw new Error('process.env.CONMODUS_BUNDLES_PORT not defined!');
+}
+
 module.exports = {
     entry: './src/conmodus/client-dev-ssr.js',
     output: {
@@ -87,8 +91,8 @@ module.exports = {
         ],
     },
     plugins: [
-        new ManifestPlugin(),
-        new LoadablePlugin(),
+        new ManifestPlugin({ writeToFileEmit: true }),
+        new LoadablePlugin({ writeToDisk: true }),
         new MiniCssExtractPlugin({
             filename: '[name].css',
             chunkFilename: '[id].css',
@@ -100,8 +104,13 @@ module.exports = {
     ],
     devServer: {
         hot: true,
+        writeToDisk: true,
         port: process.env.CONMODUS_BUNDLES_PORT,
         host: '0.0.0.0',
+        overlay: {
+            warnings: true,
+            errors: true,
+        },
         disableHostCheck: true,
     },
 };
