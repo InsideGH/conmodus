@@ -11,6 +11,9 @@ prod:
 prod-nossr:
 	docker-compose -f docker-compose-prod-nossr.yml up -d
 
+live:
+	docker-compose -f docker-compose-live.yml up -d
+
 
 # 'stop' with docker
 dev_stop:
@@ -24,6 +27,9 @@ prod_stop:
 
 prod-nossr_stop:
 	docker-compose -f docker-compose-prod-nossr.yml stop
+
+live_stop:
+	docker-compose -f docker-compose-live.yml stop
 
 
 # 'restart' with docker
@@ -39,6 +45,9 @@ prod_restart:
 prod-nossr_restart:
 	docker-compose -f docker-compose-prod-nossr.yml restart
 
+live_restart:
+	docker-compose -f docker-compose-live.yml restart
+
 
 # 'logs' with docker
 dev_logs:
@@ -52,6 +61,9 @@ prod_logs:
 
 prod-nossr_logs:
 	docker-compose -f docker-compose-prod-nossr.yml logs -f
+
+live_logs:
+	docker-compose -f docker-compose-live.yml logs -f
 
 
 # 'build' with docker
@@ -67,6 +79,10 @@ prod_build:
 prod-nossr_build:
 	docker-compose -f docker-compose-prod-nossr.yml build
 
+live_build:
+	docker-compose -f docker-compose-live-build.yml build
+
+build_all: dev_build devssr_build prod_build prod-nossr_build live_build
 
 # 'ps with docker
 dev_ps:
@@ -80,6 +96,9 @@ prod_ps:
 
 prod-nossr_ps:
 	docker-compose -f docker-compose-prod-nossr.yml ps
+
+live_ps:
+	docker-compose -f docker-compose-live.yml ps
 
 
 # general 
@@ -101,10 +120,12 @@ clean_conmodus_images:
 	docker rmi conmodus_api_gateway:devssr | true
 	docker rmi conmodus_api_gateway:prod | true
 	docker rmi conmodus_api_gateway:prod-nossr | true
+	docker rmi conmodus_api_gateway:live | true
 	docker rmi conmodus_frontend:dev | true
 	docker rmi conmodus_frontend:devssr | true
 	docker rmi conmodus_frontend:prod -f | true
 	docker rmi conmodus_frontend:prod-nossr -f | true
+	docker rmi conmodus_frontend:live -f | true
 
 clean_docker: clean_conmodus_images clean_dangling_images clean_containers clean_dangling_volumes
 

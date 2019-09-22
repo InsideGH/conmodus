@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+
+  frontend:
+    image: insidedocker/conmodus_frontend:latest
+    networks:
+      - net_a
+
+  api-gateway:
+    image: insidedocker/conmodus_api_gateway:latest
+    networks:
+      - net_a
+
+  nginx:
+    image: insidedocker/conmodus_nginx:latest
+    ports:
+      - "3000:80"
+    networks:
+      - net_a
+
+networks:
+  net_a:

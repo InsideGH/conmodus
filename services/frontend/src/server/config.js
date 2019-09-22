@@ -14,6 +14,9 @@ if (process.env.CONMODUS_MODE == 'ssr') {
     if (!process.env.LOG_LEVEL) {
         throw new Error('process.env.LOG_LEVEL not defined!');
     }
+    if (!process.env.VERSION) {
+        throw new Error('process.env.VERSION not defined!');
+    }
 }
 
 exports.CONMODUS_TIMEOUT = process.env.CONMODUS_TIMEOUT;
@@ -21,3 +24,4 @@ exports.CONMODUS_MAX_RENDERS = process.env.CONMODUS_MAX_RENDERS;
 exports.CONMODUS_REACT_ROOT = process.env.CONMODUS_REACT_ROOT;
 exports.NODE_ENV = process.env.NODE_ENV;
 exports.LOG_LEVEL = process.env.LOG_LEVEL;
+exports.VERSION = process.env.VERSION;

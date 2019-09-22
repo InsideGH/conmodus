@@ -70,9 +70,7 @@
         "redux": "^4.0.1",
         "redux-devtools-extension": "^2.13.8",
         "redux-thunk": "^2.3.0",
-        "uuid": "^3.3.2"
-    },
-    "devDependencies": {
+        "uuid": "^3.3.2",
         "@babel/cli": "^7.4.4",
         "@babel/core": "^7.4.5",
         "@babel/node": "^7.4.5",
@@ -80,7 +78,6 @@
         "@babel/plugin-transform-runtime": "^7.4.4",
         "@babel/preset-env": "^7.4.5",
         "@babel/preset-react": "^7.0.0",
-        "@hot-loader/react-dom": "^16.8.6",
         "@loadable/babel-plugin": "^5.10.0",
         "@loadable/component": "^5.10.1",
         "@loadable/webpack-plugin": "^5.7.1",
@@ -99,21 +96,20 @@
         "eslint-plugin-react": "^7.13.0",
         "extract-css-chunks-webpack-plugin": "^4.5.6",
         "html-webpack-plugin": "^3.2.0",
-        "isomorphic-style-loader": "^5.1.0",
         "mini-css-extract-plugin": "^0.7.0",
         "node-sass": "^4.12.0",
-        "nodemon": "^1.19.1",
         "pino-pretty": "^3.2.0",
         "postcss-loader": "^3.0.0",
-        "react-hot-loader": "^4.11.0",
         "sass-loader": "^7.1.0",
-        "style-loader": "^0.23.1",
         "styled-components": "^4.3.2",
         "webpack": "^4.34.0",
         "webpack-cli": "^3.3.4",
-        "webpack-dev-middleware": "^3.7.0",
-        "webpack-dev-server": "^3.7.1",
-        "webpack-hot-middleware": "^2.25.0",
         "webpack-manifest-plugin": "^2.0.4"
+    },
+    "devDependencies": {
+        "@hot-loader/react-dom": "^16.8.6",
+        "webpack-dev-server": "^3.7.1",
+        "nodemon": "^1.19.1",
+        "react-hot-loader": "^4.11.0"
     }
 }

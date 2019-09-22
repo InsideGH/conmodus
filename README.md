@@ -10,7 +10,9 @@ Set the following in you etc/hosts file.
 127.0.0.1 local.conmodus.com
 ```
 
->Client side only development
+There are 5 modes available.
+
+> Client side only development
 ```
     * make dev (in one terminal)
     * make dev_logs (in another terminal)
@@ -25,6 +27,8 @@ Set the following in you etc/hosts file.
 ```
 
 > Production
+
+This mode can be used to test production locally.
 ```
     * make prod (in one terminal)
     * make prod_logs (in another terminal)
@@ -32,20 +36,34 @@ Set the following in you etc/hosts file.
 ```
 
 > Production without SSR (static serve)
+
+This mode can be used to test production of client side only rendered locally.
 ```
     * make prod-nossr (in one terminal)
     * make prod-nossr_logs (in another terminal)
     * To tear down, CTRL-C the prod-nossr_logs terminal and do make prod-nossr_stop
 ```
 
-* If you change the nginx configuration, you can do 'make nginx_reload' to reload nginx.
+> Live
+
+This mode is building images and using the built images and is targeting live mode.
+
+```
+    ./push_to_dockerhub.sh
+```
+
+The above script will build all microservices. Each microservice build results in 2 images, one __latest__ and a specific __version__ (decided by VERSION variable in the .env file). Then all imagas are pushed to docker hub. This means in total 6 images.
+
+On your server (EC2, Ubuntu server, etc ...) you use the `docker-compose-live.yml` along with the `deploy.sh` script.
+
+If you have multiple projects on your server, your server nginx can route subdomains to the different projects port. Currently the `docker-compose-live.yml` exposes port 3000.
 
 ---
 
 ## MICROSERVICES
 
 These are the three services that are created.
->FRONTEND
+> FRONTEND
 
 > API-GATEWAY
 
@@ -54,15 +72,17 @@ These are the three services that are created.
 ---
 ### FRONTEND
 
-There are four variants
+There are five variants
 
-> Client side rendering (dev)
+> Client side rendering (__dev__)
 
-> Server side rendering (devssr)
+> Server side rendering (__devssr__)
 
-> Production (prod)
+> Production (__prod__). Note, local production
 
-> Production without SSR but instead static serving (prod-nossr)
+> Production without SSR but instead static serving (__prod-nossr__). Note, local production.
+
+> Live (__live__) (based of built images on docker hub)
 
 Following features are supported for __both__ 'client side only rendering' and 'SSR'. Both support hot reloading.
 
@@ -80,13 +100,37 @@ Following features are supported for __both__ 'client side only rendering' and '
 
 ### API-GATEWAY
 
-* REST based API
-* Graphql endpoint
+There are two variants mapped to five modes like follows.
+
+> Development. Used with __dev__, __devssr__.
+
+> Production. Used with __prod__, __prod-nossr__, __live__.
+
+Following features are supported
+
+* REST based API.
+
+* Graphql endpoint.
 
 
 ### NGINX
 
-* Routing request from client to API-GATEWAY from both browser and frontend server side rendering.
+There are two variants mapped to five modes like follows.
+
+> Local configuration. Used with __dev__, __devssr__, __prod__, __prod-nossr__.
+
+> Live configuration. Used with __live__.
+
+> Routing request from client to API-GATEWAY from both browser and frontend server side rendering.
+
+Following features are supported
+
+* Routing / to `frontend` service.
+
+* Routing /api-gateway to `api-gateway` service.
+
+> If you change the nginx configuration, you can do 'make nginx_reload' to reload nginx.
+
 
 ---
 ### STRUCTURE
@@ -131,7 +175,8 @@ Folder | Content
 ---
 ### DOCKER
 
-There are four docker compose files
+There are six docker compose files
+
 * docker-compose-dev.yml
     >React client side only development with hot reloading.
 
@@ -144,6 +189,12 @@ There are four docker compose files
 * docker-compose-prod-nossr.yml
     >React static served client production.
 
+* docker-compose-live_build.yml
+    >Build images using args.
+
+* docker-compose-live.yml
+    >React SSR production based of images.
+
 ---
 
 ### ALL COMMANDS AVAILABLE IN MAKEFILE
@@ -152,30 +203,36 @@ There are four docker compose files
 * make devssr_build
 * make prod_build
 * make prod-nossr_build
+* make live_build
+* make build_all
 
 >To start
 * make dev
 * make devssr
 * make prod
 * make prod-nossr
+* make live
 
 >To show logs
 * make dev_logs
 * make devssr_logs
 * make prod_logs
 * make prod-nossr_logs
+* make live_logs
 
 >To stop
 * make dev_stop
 * make devssr_stop
 * make prod_stop
 * make prod-nossr_stop
+* make live_stop
 
 >To restart
 * make dev_restart
 * make devssr_restart
 * make prod_restart
 * make prod-nossr_restart
+* make live_restart
 
 >To reload nginx
 * make nginx_reload

@@ -14,7 +14,12 @@ if (!process.env.NODE_ENV) {
     throw new Error('process.env.NODE_ENV not defined!');
 }
 
+if (!process.env.VERSION) {
+    throw new Error('process.env.VERSION not defined!');
+}
+
 exports.GRAPHQL_ENDPOINT = process.env.GRAPHQL_ENDPOINT;
 exports.API_ENDPOINT = process.env.API_ENDPOINT;
 exports.LOG_LEVEL = process.env.LOG_LEVEL;
 exports.NODE_ENV = process.env.NODE_ENV;
+exports.VERSION = process.env.VERSION;
