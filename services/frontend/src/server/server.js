@@ -47,7 +47,7 @@ const server = expressApp.listen(80, err => {
     if (err) {
         throw err;
     }
-    logger.info('ExpressApp started on port 80');
+    logger.info(`Frontend ${config.VERSION} started on port 80`);
 });
 
 process.on('SIGTERM', function() {

@@ -4,7 +4,7 @@ services:
   frontend:
     build:
       context: ./services/frontend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     image: conmodus_frontend:dev
     networks:
       - net_a
@@ -13,15 +13,17 @@ services:
       LOG_LEVEL: debug
       API_ENDPOINT_CLIENT: /api-gateway/api
       GRAPHQL_ENDPOINT_CLIENT: /api-gateway/graphql
+      VERSION: ${VERSION-}
     volumes:
       - ./services/frontend/src:/app/src
       - ./services/frontend/webpack.dev.js:/app/webpack.dev.js
       - ./services/frontend/package.json:/app/package.json
+    command: npm run dev
 
   api-gateway:
     build:
       context: ./services/api-gateway
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     image: conmodus_api_gateway:dev
     networks:
       - net_a
@@ -30,11 +32,16 @@ services:
       LOG_LEVEL: debug
       GRAPHQL_ENDPOINT: /graphql
       API_ENDPOINT: /api
+      VERSION: ${VERSION-}
     volumes:
       - ./services/api-gateway/src:/app/src
+    command: npm run dev
 
   nginx:
-    image: nginx
+    build:
+      context: ./services/nginx
+      dockerfile: Dockerfile
+    image: conmodus_nginx:local
     ports:
       - "80:80"
     networks:

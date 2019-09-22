@@ -64,6 +64,7 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env.API_ENDPOINT': JSON.stringify(process.env.API_ENDPOINT_CLIENT),
             'process.env.GRAPHQL_ENDPOINT': JSON.stringify(process.env.GRAPHQL_ENDPOINT_CLIENT),
+            'process.env.VERSION': JSON.stringify(process.env.VERSION),
         }),
     ],
 };

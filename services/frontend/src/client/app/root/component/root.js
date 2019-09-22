@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import LoadableFallback from '../../../util/loadable-fallback';
 import loadable from '@loadable/component';
+import {VERSION} from '../../../config';
 
 // import ExampleHook from '../../hook/component/hook';
 // import ExampleAbout from '../../about/component/about';
@@ -38,7 +39,7 @@ const ExampleContext = loadable(() => import('../../context/component/example-co
 const App = () => {
     return (
         <>
-            <h1>Welcome</h1>
+            <h1>Welcome {VERSION}</h1>
             <nav>
                 <ul>
                     <li>

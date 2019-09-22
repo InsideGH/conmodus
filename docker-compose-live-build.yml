@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+
+  frontend:
+    build:
+      context: ./services/frontend
+      dockerfile: Dockerfile.live
+      args:
+        NODE_ENV: production
+        LOG_LEVEL: info
+        API_ENDPOINT: http://api-gateway/api
+        API_ENDPOINT_CLIENT: /api-gateway/api
+        GRAPHQL_ENDPOINT: http://api-gateway/graphql
+        GRAPHQL_ENDPOINT_CLIENT: /api-gateway/graphql
+        CONMODUS_TIMEOUT: 1000
+        CONMODUS_MAX_RENDERS: 10
+        CONMODUS_REACT_ROOT: react-root
+        CONMODUS_MODE: ssr
+        VERSION: ${VERSION-}
+    image: conmodus_frontend:live
+
+  api-gateway:
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile.live
+      args:
+        NODE_ENV: production
+        LOG_LEVEL: info
+        GRAPHQL_ENDPOINT: /graphql
+        API_ENDPOINT: /api
+        VERSION: ${VERSION-}
+    image: conmodus_api_gateway:live
+
+  nginx:
+    build:
+      context: ./services/nginx
+      dockerfile: Dockerfile.live
+    image: conmodus_nginx:live

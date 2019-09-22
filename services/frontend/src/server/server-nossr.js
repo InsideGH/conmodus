@@ -2,6 +2,7 @@ require('@babel/polyfill');
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+const config = require('./config');
 
 const expressApp = express();
 expressApp.use(bodyParser.json());
@@ -20,7 +21,7 @@ const server = expressApp.listen(80, err => {
     if (err) {
         throw err;
     }
-    logger.info('ExpressApp started on port 80');
+    logger.info(`Frontend ${config.VERSION} started on port 80`);
 });
 
 process.on('SIGTERM', function() {
