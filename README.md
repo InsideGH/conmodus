@@ -1,6 +1,6 @@
 # CONMODUS
 
-React SSR with docker, demo [web.thelarsson.com](http://web.thelarsson.com). Note, it's served from my old gaming PC running Ubuntu server that isn't online all the time.
+React SSR with docker.
 
 ## GET STARTED
 
