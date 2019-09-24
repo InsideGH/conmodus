@@ -14,7 +14,7 @@ services:
   nginx:
     image: insidedocker/conmodus_nginx:latest
     ports:
-      - "3000:80"
+      - "${PORT_LIVE}:80"
     networks:
       - net_a
 

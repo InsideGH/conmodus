@@ -34,5 +34,5 @@ services:
   nginx:
     build:
       context: ./services/nginx
-      dockerfile: Dockerfile.live
+      dockerfile: Dockerfile
     image: conmodus_nginx:live

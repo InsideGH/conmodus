@@ -1,32 +1,38 @@
 # CONMODUS
 
-React SSR with docker.
+React SSR with docker, demo [web.thelarsson.com](http://web.thelarsson.com). Note, it's served from my old gaming PC running Ubuntu server that isn't online all the time.
 
 ## GET STARTED
 
-Set the following in you etc/hosts file.
+Set the following in you etc/hosts file IF YOU WANT. Otherwise just use `localhost`.
 
 ```
 127.0.0.1 local.conmodus.com
 ```
 
+The `.env` file contains 
+* VERSION (the version of the whole thing)
+* PORT_LOCAL and PORT_LIVE determining which port to serve from.
+
+
 There are 5 modes available.
 
-> Client side only development
+> Client side only development. Using `PORT_LOCAL`.
+
 ```
     * make dev (in one terminal)
     * make dev_logs (in another terminal)
     * To tear down, CTRL-C the dev_logs terminal and do make dev_stop
 ```
 
-> Development with SSR
+> Development with SSR. Using `PORT_LOCAL`.
 ```
     * make devssr (in one terminal)
     * make devssr_logs (in another terminal)
     * To tear down, CTRL-C the devssr_logs terminal and do make devssr_stop
 ```
 
-> Production
+> Production. Using `PORT_LOCAL`.
 
 This mode can be used to test production locally.
 ```
@@ -35,7 +41,7 @@ This mode can be used to test production locally.
     * To tear down, CTRL-C the prod_logs terminal and do make prod_stop
 ```
 
-> Production without SSR (static serve)
+> Production without SSR (static serve). Using `PORT_LOCAL`.
 
 This mode can be used to test production of client side only rendered locally.
 ```
@@ -44,7 +50,7 @@ This mode can be used to test production of client side only rendered locally.
     * To tear down, CTRL-C the prod-nossr_logs terminal and do make prod-nossr_stop
 ```
 
-> Live
+> Live. Using `PORT_LIVE`.
 
 This mode is building images and using the built images and is targeting live mode.
 
@@ -54,7 +60,9 @@ This mode is building images and using the built images and is targeting live mo
 
 The above script will build all microservices. Each microservice build results in 2 images, one __latest__ and a specific __version__ (decided by VERSION variable in the .env file). Then all imagas are pushed to docker hub. This means in total 6 images.
 
-On your server (EC2, Ubuntu server, etc ...) you use the `docker-compose-live.yml` along with the `deploy.sh` script.
+On your server (EC2, Ubuntu server, etc ...) you use the `docker-compose-live.yml` (renamed to `docker-compose.yml`) along with the `deploy.sh` script and a `.env` file with `PORT_LIVE` set to what you want to use. Just scp these 3 files to your server and run `./deploy.sh`.
+
+The above assumes that you have a nginx setup on your server routing traffic to the currect port (`PORT_LIVE`).
 
 If you have multiple projects on your server, your server nginx can route subdomains to the different projects port. Currently the `docker-compose-live.yml` exposes port 3000.
 
@@ -115,13 +123,9 @@ Following features are supported
 
 ### NGINX
 
-There are two variants mapped to five modes like follows.
+There is one configuration used with all five modes like follows.
 
-> Local configuration. Used with __dev__, __devssr__, __prod__, __prod-nossr__.
-
-> Live configuration. Used with __live__.
-
-> Routing request from client to API-GATEWAY from both browser and frontend server side rendering.
+> `nginx.conf` used for __dev__, __devssr__, __prod__, __prod-nossr__, __live__.
 
 Following features are supported
 
