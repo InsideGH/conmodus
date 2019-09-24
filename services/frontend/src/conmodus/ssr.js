@@ -187,6 +187,7 @@ const ssr = async (req, config) => {
         .insertHead(state.extractor.getStyleTags())
         .insertHead(state.styleTags)
         .insertHead(helmetHeadData)
+        .insertHead(state.extractor.getLinkTags())
         .insertHtmlOpeningTag(state.helmet.htmlAttributes.toString())
         .insertBodyOpeningTag(state.helmet.bodyAttributes.toString())
         .insertStateHead([

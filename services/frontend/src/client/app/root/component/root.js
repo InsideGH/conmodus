@@ -20,21 +20,21 @@ import {VERSION} from '../../../config';
 // import ExampleWeatherGraphql from '../../weather-graphql/component/weather-graphql';
 // import ExampleContext from '../../context/component/example-context';
 
-const ExampleHook = loadable(() => import('../../hook/component/hook'), { fallback: <LoadableFallback /> });
-const ExampleAbout = loadable(() => import('../../about/component/about'), { fallback: <LoadableFallback /> });
-const ExampleDynamic = loadable(() => import('../../dynamic/component/dynamic'), { fallback: <LoadableFallback /> });
-const ExampleFetch = loadable(() => import('../../fetch/component/fetch'), { fallback: <LoadableFallback /> });
-const ExampleReduxClass = loadable(() => import('../../redux/class/container/redux-class'), { fallback: <LoadableFallback /> });
-const ExampleDeep = loadable(() => import('../../deep/component/deep'), { fallback: <LoadableFallback /> });
-const ExampleAboutWithCss = loadable(() => import('../../about-with-css/component/about-with-css'), { fallback: <LoadableFallback /> });
-const ExampleAboutWithScss = loadable(() => import('../../about-with-scss/component/about-with-scss'), { fallback: <LoadableFallback /> });
-const ExampleAboutWithStyled = loadable(() => import('../../about-with-styled/component/about-with-styled'), { fallback: <LoadableFallback /> });
-const ExampleAboutWithLoadable = loadable(() => import('../../about-with-loadable/component/about-with-loadable'), { fallback: <LoadableFallback /> });
-const ExampleRedirect = loadable(() => import('../../redirect/component/redirect'), { fallback: <LoadableFallback /> });
-const ExampleAboutWithHelmet = loadable(() => import('../../about-with-helmet/component/about-with-helmet'), { fallback: <LoadableFallback /> });
-const ExampleWeather = loadable(() => import('../../weather/component/weather'), { fallback: <LoadableFallback /> });
-const ExampleWeatherGraphql = loadable(() => import('../../weather-graphql/component/weather-graphql'), { fallback: <LoadableFallback /> });
-const ExampleContext = loadable(() => import('../../context/component/example-context'), { fallback: <LoadableFallback /> });
+const ExampleHook = loadable(() => import(/* webpackPrefetch: true */ '../../hook/component/hook'), { fallback: <LoadableFallback /> });
+const ExampleAbout = loadable(() => import(/* webpackPrefetch: true */ '../../about/component/about'), { fallback: <LoadableFallback /> });
+const ExampleDynamic = loadable(() => import(/* webpackPrefetch: true */ '../../dynamic/component/dynamic'), { fallback: <LoadableFallback /> });
+const ExampleFetch = loadable(() => import(/* webpackPrefetch: true */ '../../fetch/component/fetch'), { fallback: <LoadableFallback /> });
+const ExampleReduxClass = loadable(() => import(/* webpackPrefetch: true */ '../../redux/class/container/redux-class'), { fallback: <LoadableFallback /> });
+const ExampleDeep = loadable(() => import(/* webpackPrefetch: true */ '../../deep/component/deep'), { fallback: <LoadableFallback /> });
+const ExampleAboutWithCss = loadable(() => import(/* webpackPrefetch: true */ '../../about-with-css/component/about-with-css'), { fallback: <LoadableFallback /> });
+const ExampleAboutWithScss = loadable(() => import(/* webpackPrefetch: true */ '../../about-with-scss/component/about-with-scss'), { fallback: <LoadableFallback /> });
+const ExampleAboutWithStyled = loadable(() => import(/* webpackPrefetch: true */ '../../about-with-styled/component/about-with-styled'), { fallback: <LoadableFallback /> });
+const ExampleAboutWithLoadable = loadable(() => import(/* webpackPrefetch: true */ '../../about-with-loadable/component/about-with-loadable'), { fallback: <LoadableFallback /> });
+const ExampleRedirect = loadable(() => import(/* webpackPrefetch: true */ '../../redirect/component/redirect'), { fallback: <LoadableFallback /> });
+const ExampleAboutWithHelmet = loadable(() => import(/* webpackPrefetch: true */ '../../about-with-helmet/component/about-with-helmet'), { fallback: <LoadableFallback /> });
+const ExampleWeather = loadable(() => import(/* webpackPrefetch: true */ '../../weather/component/weather'), { fallback: <LoadableFallback /> });
+const ExampleWeatherGraphql = loadable(() => import(/* webpackPrefetch: true */ '../../weather-graphql/component/weather-graphql'), { fallback: <LoadableFallback /> });
+const ExampleContext = loadable(() => import(/* webpackPrefetch: true */ '../../context/component/example-context'), { fallback: <LoadableFallback /> });
 
 const App = () => {
     return (
