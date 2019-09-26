@@ -1,3 +1,11 @@
+# LIVE build environment.
+# SSR frontend rendering.
+# MOST variables are available in this and the .env file.
+# Secrets such as
+#   POSTGRES_PASSWORD
+#   POSTGRES_USER
+# must be passed though as env variables during 'docker-compose -up' to 'api-gateway' and 'postgres'
+# when using the docker-compose-live.yml file.
 version: '3.7'
 services:
 
@@ -19,6 +27,20 @@ services:
         VERSION: ${VERSION-}
     image: ${IMAGE_PREFIX-}_frontend:live
 
+  cms:
+    build:
+      context: ./services/cms
+      dockerfile: Dockerfile.live
+      args:
+        NODE_ENV: production
+        LOG_LEVEL: info
+        API_ENDPOINT: http://api-gateway/api
+        API_ENDPOINT_CLIENT: /api-gateway/api
+        GRAPHQL_ENDPOINT: http://api-gateway/graphql
+        GRAPHQL_ENDPOINT_CLIENT: /api-gateway/graphql
+        VERSION: ${VERSION-}
+    image: ${IMAGE_PREFIX-}_cms:live
+
   api-gateway:
     build:
       context: ./services/api-gateway
@@ -28,11 +50,15 @@ services:
         LOG_LEVEL: info
         GRAPHQL_ENDPOINT: /graphql
         API_ENDPOINT: /api
+        POSTGRES_HOST: postgres
         VERSION: ${VERSION-}
     image: ${IMAGE_PREFIX-}_api_gateway:live
+
+  postgres:
+    image: postgres
 
   nginx:
     build:
       context: ./services/nginx
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.live
     image: ${IMAGE_PREFIX-}_nginx:live

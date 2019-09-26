@@ -1,4 +1,6 @@
 const { ApolloServer, gql } = require('apollo-server-express');
+const sequelize = require('../sequelize/sequelize');
+const models = require('../sequelize/models');
 
 const typeDefs = gql`
     type Name {
@@ -12,10 +14,24 @@ const typeDefs = gql`
         date: String
     }
 
-    # The "Query" type is the root of all GraphQL queries.
+    type User {
+        id: String
+        firstName: String
+        lastName: String
+    }
+
+    input UserInput {
+        firstName: String!
+        lastName: String!
+    }
+
     type Query {
         weather: Weather
         name(breed: String!): Name
+    }
+
+    type Mutation {
+        createUser(input: UserInput!): User
     }
 `;
 
@@ -32,11 +48,23 @@ const resolvers = {
             lastName: 'Anka',
         }),
     },
+    Mutation: {
+        createUser: async (obj, { input }, context, info) => {
+            const { models } = context;
+            const { firstName, lastName } = input;
+            const result = await models.User.create({ firstName, lastName });
+            return result;
+        },
+    },
 };
 
-const apolloApi = new ApolloServer({
+const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
+    context: ({ req }) => ({
+        sequelize,
+        models,
+    }),
 });
 
-exports.apolloApi = apolloApi;
+module.exports = apolloServer;
