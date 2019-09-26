@@ -1,6 +1,6 @@
 # CONMODUS
 
-React SSR with docker.
+React SSR with docker, demo [web.thelarsson.com](http://web.thelarsson.com). Note, it's served from my old gaming PC running Ubuntu server that isn't online all the time.
 
 ## GET STARTED
 
@@ -15,56 +15,27 @@ The `.env` file contains
 * PORT_LOCAL and PORT_LIVE determining which port to serve from.
 
 
-There are 5 modes available.
+There are 5 modes available. The mode is controlled by the .env file and the variable called DEV_MODE.
 
-> Client side only development. Using `PORT_LOCAL`.
+> DEV_MODE=dev. Client side only development. Using `PORT_LOCAL`.
 
-```
-    * make dev (in one terminal)
-    * make dev_logs (in another terminal)
-    * To tear down, CTRL-C the dev_logs terminal and do make dev_stop
-```
+> DEV_MODE=devssr. Development with SSR. Using `PORT_LOCAL`.
 
-> Development with SSR. Using `PORT_LOCAL`.
-```
-    * make devssr (in one terminal)
-    * make devssr_logs (in another terminal)
-    * To tear down, CTRL-C the devssr_logs terminal and do make devssr_stop
-```
+> DEV_MODE=prod. Production. Using `PORT_LOCAL`.
 
-> Production. Using `PORT_LOCAL`.
+> DEV_MODE=prod-nossr. Production without SSR (static serve). Using `PORT_LOCAL`.
 
-This mode can be used to test production locally.
-```
-    * make prod (in one terminal)
-    * make prod_logs (in another terminal)
-    * To tear down, CTRL-C the prod_logs terminal and do make prod_stop
-```
+> DEV_MODE=live. This mode is building images and using the built images and is targeting live mode. Using `PORT_LIVE`.
 
-> Production without SSR (static serve). Using `PORT_LOCAL`.
-
-This mode can be used to test production of client side only rendered locally.
-```
-    * make prod-nossr (in one terminal)
-    * make prod-nossr_logs (in another terminal)
-    * To tear down, CTRL-C the prod-nossr_logs terminal and do make prod-nossr_stop
-```
-
-> Live. Using `PORT_LIVE`.
-
-This mode is building images and using the built images and is targeting live mode.
+<br>
+To start just do the following
 
 ```
-    ./push_to_dockerhub.sh
+    * make up (in one terminal)
+    * make logs (in another terminal)
+    * To tear down, CTRL-C the logs terminal and do make stop
 ```
-
-The above script will build all microservices. Each microservice build results in 2 images, one __latest__ and a specific __version__ (decided by VERSION variable in the .env file). Then all imagas are pushed to docker hub. This means in total 6 images.
-
-On your server (EC2, Ubuntu server, etc ...) you use the `docker-compose-live.yml` (renamed to `docker-compose.yml`) along with the `deploy.sh` script and a `.env` file with `PORT_LIVE` set to what you want to use. Just scp these 3 files to your server and run `./deploy.sh`.
-
-The above assumes that you have a nginx setup on your server routing traffic to the currect port (`PORT_LIVE`).
-
-If you have multiple projects on your server, your server nginx can route subdomains to the different projects port. Currently the `docker-compose-live.yml` exposes port 3000.
+<br>
 
 ---
 
@@ -201,42 +172,38 @@ There are six docker compose files
 
 ---
 
+### LIVE
+
+```
+    ./push_to_dockerhub.sh
+```
+
+The above script will build all microservices. Each microservice build results in 2 images, one __latest__ and a specific __version__ (decided by VERSION variable in the .env file). Then all imagas are pushed to docker hub. This means in total 6 images.
+
+On your server (EC2, Ubuntu server, etc ...) you use the `docker-compose-live.yml` (renamed to `docker-compose.yml`) along with the `deploy.sh` script and a `.env` file with `PORT_LIVE` set to what you want to use. Just scp these 3 files to your server and run `./deploy.sh`.
+
+The above assumes that you have a nginx setup on your server routing traffic to the currect port (`PORT_LIVE`).
+
+If you have multiple projects on your server, your server nginx can route subdomains to the different projects port. Currently the `docker-compose-live.yml` exposes port 3000.
+
+---
+
 ### ALL COMMANDS AVAILABLE IN MAKEFILE
 >To build
-* make dev_build
-* make devssr_build
-* make prod_build
-* make prod-nossr_build
-* make live_build
+* make build
 * make build_all
 
->To start
-* make dev
-* make devssr
-* make prod
-* make prod-nossr
-* make live
+>To start in detached mode
+* make up
 
 >To show logs
-* make dev_logs
-* make devssr_logs
-* make prod_logs
-* make prod-nossr_logs
-* make live_logs
+* make logs
 
 >To stop
-* make dev_stop
-* make devssr_stop
-* make prod_stop
-* make prod-nossr_stop
-* make live_stop
+* make stop
 
 >To restart
-* make dev_restart
-* make devssr_restart
-* make prod_restart
-* make prod-nossr_restart
-* make live_restart
+* make restart
 
 >To reload nginx
 * make nginx_reload
