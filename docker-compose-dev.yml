@@ -5,7 +5,7 @@ services:
     build:
       context: ./services/frontend
       dockerfile: Dockerfile
-    image: conmodus_frontend:dev
+    image: ${IMAGE_PREFIX-}_frontend:dev
     networks:
       - net_a
     environment:
@@ -24,7 +24,7 @@ services:
     build:
       context: ./services/api-gateway
       dockerfile: Dockerfile
-    image: conmodus_api_gateway:dev
+    image: ${IMAGE_PREFIX-}_api_gateway:dev
     networks:
       - net_a
     environment:
@@ -41,7 +41,7 @@ services:
     build:
       context: ./services/nginx
       dockerfile: Dockerfile
-    image: conmodus_nginx:local
+    image: ${IMAGE_PREFIX-}_nginx:local
     ports:
       - "${PORT_LOCAL}:80"
     networks:

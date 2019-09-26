@@ -17,7 +17,7 @@ services:
         CONMODUS_REACT_ROOT: react-root
         CONMODUS_MODE: ssr
         VERSION: ${VERSION-}
-    image: conmodus_frontend:live
+    image: ${IMAGE_PREFIX-}_frontend:live
 
   api-gateway:
     build:
@@ -29,10 +29,10 @@ services:
         GRAPHQL_ENDPOINT: /graphql
         API_ENDPOINT: /api
         VERSION: ${VERSION-}
-    image: conmodus_api_gateway:live
+    image: ${IMAGE_PREFIX-}_api_gateway:live
 
   nginx:
     build:
       context: ./services/nginx
       dockerfile: Dockerfile
-    image: conmodus_nginx:live
+    image: ${IMAGE_PREFIX-}_nginx:live

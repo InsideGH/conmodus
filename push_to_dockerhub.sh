@@ -5,6 +5,7 @@ USERNAME=insidedocker
 
 DOT_ENV_FILE=.env
 VERSION=$(grep VERSION $DOT_ENV_FILE| cut -d '=' -f 2-)
+IMAGE_PREFIX=$(grep IMAGE_PREFIX $DOT_ENV_FILE| cut -d '=' -f 2-)
 TAG=live
 
 echo Reading version from file: $DOT_ENV_FILE
@@ -17,17 +18,17 @@ echo Building live...
 echo ""
 make live_build
 
-FRONTEND_SRC=conmodus_frontend:$TAG
-FRONTEND_DST_VERSION=$USERNAME/conmodus_frontend:$VERSION
-FRONTEND_DST_LATEST=$USERNAME/conmodus_frontend:latest
+FRONTEND_SRC=${IMAGE_PREFIX}_frontend:$TAG
+FRONTEND_DST_VERSION=$USERNAME/${IMAGE_PREFIX}_frontend:$VERSION
+FRONTEND_DST_LATEST=$USERNAME/${IMAGE_PREFIX}_frontend:latest
 
-API_GATEWAY_SRC=conmodus_api_gateway:$TAG
-API_GATEWAY_DST_VERSION=$USERNAME/conmodus_api_gateway:$VERSION
-API_GATEWAY_DST_LATEST=$USERNAME/conmodus_api_gateway:latest
+API_GATEWAY_SRC=${IMAGE_PREFIX}_api_gateway:$TAG
+API_GATEWAY_DST_VERSION=$USERNAME/${IMAGE_PREFIX}_api_gateway:$VERSION
+API_GATEWAY_DST_LATEST=$USERNAME/${IMAGE_PREFIX}_api_gateway:latest
 
-NGINX_SRC=conmodus_nginx:$TAG
-NGINX_DST_VERSION=$USERNAME/conmodus_nginx:$VERSION
-NGINX_DST_LATEST=$USERNAME/conmodus_nginx:latest
+NGINX_SRC=${IMAGE_PREFIX}_nginx:$TAG
+NGINX_DST_VERSION=$USERNAME/${IMAGE_PREFIX}_nginx:$VERSION
+NGINX_DST_LATEST=$USERNAME/${IMAGE_PREFIX}_nginx:latest
 
 docker tag $FRONTEND_SRC $FRONTEND_DST_VERSION
 docker tag $FRONTEND_SRC $FRONTEND_DST_LATEST
