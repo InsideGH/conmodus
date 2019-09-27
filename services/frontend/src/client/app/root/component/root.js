@@ -5,31 +5,18 @@ import theme from '../../styled/theme';
 import GlobalStyle from '../../styled/global-style';
 
 const App = () => {
+    let content = [];
+    let i;
+    for (i = 0; i < 40; i++) {
+        content.push(<h1 key={i}>Not much here...</h1>);
+    }
+    content.push(<h1 key={i}>Not much here...last</h1>);
+
     return (
         <ThemeProvider theme={theme}>
             <React.Fragment>
                 <GlobalStyle />
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...</h1>
-                <h1>Not much here...last</h1>
+                {content}
                 <Footer />
             </React.Fragment>
         </ThemeProvider>
