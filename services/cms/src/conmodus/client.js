@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import App from '../client/app/root/component/root';
+import App from '../client/app/root/root';
 import PropTypes from 'prop-types';
 import { ApolloProvider } from '@apollo/react-hooks';
 

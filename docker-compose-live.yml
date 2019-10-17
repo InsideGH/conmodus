@@ -19,23 +19,23 @@ version: '3.7'
 services:
 
   frontend:
-    image: ${USERNAME}/${IMAGE_PREFIX-}_frontend:latest
+    image: ${USERNAME}/${IMAGE_PREFIX:-}_frontend:latest
     networks:
       - net_a
 
   cms:
-    image: ${USERNAME}/${IMAGE_PREFIX-}_cms:latest
+    image: ${USERNAME}/${IMAGE_PREFIX:-}_cms:latest
     networks:
       - net_a
 
   api-gateway:
-    image: ${USERNAME}/${IMAGE_PREFIX-}_api_gateway:latest
+    image: ${USERNAME}/${IMAGE_PREFIX:-}_api_gateway:latest
     networks:
       - net_a
     environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD-}
-      POSTGRES_USER: ${POSTGRES_USER-}
-      POSTGRES_DB: ${POSTGRES_DB-}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-}
+      POSTGRES_USER: ${POSTGRES_USER:-}
+      POSTGRES_DB: ${POSTGRES_DB:-}
 
   postgres:
     image: postgres
@@ -43,14 +43,19 @@ services:
     networks:
       - net_a
     environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD-}
-      POSTGRES_USER: ${POSTGRES_USER-}
-      POSTGRES_DB: ${POSTGRES_DB-}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-}
+      POSTGRES_USER: ${POSTGRES_USER:-}
+      POSTGRES_DB: ${POSTGRES_DB:-}
 
   nginx:
-    image: ${USERNAME}/${IMAGE_PREFIX-}_nginx:latest
+    image: ${USERNAME}/${IMAGE_PREFIX:-}_nginx:latest
     ports:
       - "${PORT_LIVE}:80"
+    depends_on:
+      - frontend
+      - cms
+      - api-gateway
+      - postgres
     networks:
       - net_a
 

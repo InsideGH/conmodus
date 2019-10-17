@@ -5,8 +5,8 @@
     "private": true,
     "scripts": {
         "start": "npm run dev",
-        "dev": "nodemon -e js,json --watch src --exec \"NODE_ENV=development LOG_LEVEL=debug node src/server.js | ./node_modules/.bin/pino-pretty\"",
-        "prod": "NODE_ENV=production LOG_LEVEL=info node src/server.js",
+        "dev": "nodemon -e js,json --watch src --exec \"NODE_ENV=development LOG_LEVEL=debug node src/boot.js | ./node_modules/.bin/pino-pretty\"",
+        "prod": "NODE_ENV=production LOG_LEVEL=info node src/boot.js",
         "lint": "eslint src"
     },
     "keywords": [],
@@ -19,6 +19,7 @@
         "eslint": "^5.16.0",
         "express": "^4.17.1",
         "express-pino-logger": "^4.0.0",
+        "lodash": "^4.17.15",
         "pg": "^7.12.1",
         "pino": "^5.12.6",
         "pino-pretty": "^3.2.0",

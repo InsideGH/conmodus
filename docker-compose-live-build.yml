@@ -24,8 +24,8 @@ services:
         CONMODUS_MAX_RENDERS: 10
         CONMODUS_REACT_ROOT: react-root
         CONMODUS_MODE: ssr
-        VERSION: ${VERSION-}
-    image: ${IMAGE_PREFIX-}_frontend:live
+        VERSION: ${VERSION:-}
+    image: ${IMAGE_PREFIX:-}_frontend:live
 
   cms:
     build:
@@ -38,8 +38,8 @@ services:
         API_ENDPOINT_CLIENT: /api-gateway/api
         GRAPHQL_ENDPOINT: http://api-gateway/graphql
         GRAPHQL_ENDPOINT_CLIENT: /api-gateway/graphql
-        VERSION: ${VERSION-}
-    image: ${IMAGE_PREFIX-}_cms:live
+        VERSION: ${VERSION:-}
+    image: ${IMAGE_PREFIX:-}_cms:live
 
   api-gateway:
     build:
@@ -51,8 +51,8 @@ services:
         GRAPHQL_ENDPOINT: /graphql
         API_ENDPOINT: /api
         POSTGRES_HOST: postgres
-        VERSION: ${VERSION-}
-    image: ${IMAGE_PREFIX-}_api_gateway:live
+        VERSION: ${VERSION:-}
+    image: ${IMAGE_PREFIX:-}_api_gateway:live
 
   postgres:
     image: postgres
@@ -61,4 +61,4 @@ services:
     build:
       context: ./services/nginx
       dockerfile: Dockerfile.live
-    image: ${IMAGE_PREFIX-}_nginx:live
+    image: ${IMAGE_PREFIX:-}_nginx:live

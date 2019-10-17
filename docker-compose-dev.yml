@@ -8,7 +8,7 @@ services:
     build:
       context: ./services/frontend
       dockerfile: Dockerfile
-    image: ${IMAGE_PREFIX-}_frontend:dev
+    image: ${IMAGE_PREFIX:-}_frontend:dev
     networks:
       - net_a
     environment:
@@ -16,7 +16,7 @@ services:
       LOG_LEVEL: debug
       API_ENDPOINT_CLIENT: /api-gateway/api
       GRAPHQL_ENDPOINT_CLIENT: /api-gateway/graphql
-      VERSION: ${VERSION-}
+      VERSION: ${VERSION:-}
     volumes:
       - ./services/frontend/src:/app/src
       - ./services/frontend/webpack.dev.js:/app/webpack.dev.js
@@ -27,7 +27,7 @@ services:
     build:
       context: ./services/cms
       dockerfile: Dockerfile
-    image: ${IMAGE_PREFIX-}_cms:dev
+    image: ${IMAGE_PREFIX:-}_cms:dev
     networks:
       - net_a
     environment:
@@ -35,7 +35,7 @@ services:
       LOG_LEVEL: debug
       API_ENDPOINT_CLIENT: /api-gateway/api
       GRAPHQL_ENDPOINT_CLIENT: /api-gateway/graphql
-      VERSION: ${VERSION-}
+      VERSION: ${VERSION:-}
     volumes:
       - ./services/cms/src:/app/src
       - ./services/cms/webpack.dev.js:/app/webpack.dev.js
@@ -46,7 +46,7 @@ services:
     build:
       context: ./services/api-gateway
       dockerfile: Dockerfile
-    image: ${IMAGE_PREFIX-}_api_gateway:dev
+    image: ${IMAGE_PREFIX:-}_api_gateway:dev
     networks:
       - net_a
     environment:
@@ -57,8 +57,8 @@ services:
       POSTGRES_HOST: postgres
       POSTGRES_PASSWORD: 1
       POSTGRES_USER: 1
-      POSTGRES_DB: ${POSTGRES_DB-}
-      VERSION: ${VERSION-}
+      POSTGRES_DB: ${POSTGRES_DB:-}
+      VERSION: ${VERSION:-}
     volumes:
       - ./services/api-gateway/src:/app/src
     command: npm run dev
@@ -73,15 +73,20 @@ services:
     environment:
       POSTGRES_PASSWORD: 1
       POSTGRES_USER: 1
-      POSTGRES_DB: ${POSTGRES_DB-}
+      POSTGRES_DB: ${POSTGRES_DB:-}
 
   nginx:
     build:
       context: ./services/nginx
       dockerfile: Dockerfile
-    image: ${IMAGE_PREFIX-}_nginx:local
+    image: ${IMAGE_PREFIX:-}_nginx:local
     ports:
       - "${PORT_LOCAL}:80"
+    depends_on:
+      - frontend
+      - cms
+      - api-gateway
+      - postgres
     networks:
       - net_a
     volumes:

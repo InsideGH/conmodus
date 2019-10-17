@@ -5,7 +5,7 @@ services:
     build:
       context: ./services/frontend
       dockerfile: Dockerfile
-    image: ${IMAGE_PREFIX-}_frontend:prod
+    image: ${IMAGE_PREFIX:-}_frontend:prod
     networks:
       - net_a
     environment:
@@ -19,14 +19,14 @@ services:
       CONMODUS_MAX_RENDERS: 10
       CONMODUS_REACT_ROOT: react-root
       CONMODUS_MODE: ssr
-      VERSION: ${VERSION-}
+      VERSION: ${VERSION:-}
     command: npm run prod
 
   cms:
     build:
       context: ./services/cms
       dockerfile: Dockerfile
-    image: ${IMAGE_PREFIX-}_cms:prod
+    image: ${IMAGE_PREFIX:-}_cms:prod
     networks:
       - net_a
     environment:
@@ -34,14 +34,14 @@ services:
       LOG_LEVEL: info
       API_ENDPOINT_CLIENT: /api-gateway/api
       GRAPHQL_ENDPOINT_CLIENT: /api-gateway/graphql
-      VERSION: ${VERSION-}
+      VERSION: ${VERSION:-}
     command: npm run prod
 
   api-gateway:
     build:
       context: ./services/api-gateway
       dockerfile: Dockerfile
-    image: ${IMAGE_PREFIX-}_api_gateway:prod
+    image: ${IMAGE_PREFIX:-}_api_gateway:prod
     networks:
       - net_a
     environment:
@@ -52,8 +52,8 @@ services:
       POSTGRES_HOST: postgres
       POSTGRES_PASSWORD: 1
       POSTGRES_USER: 1
-      POSTGRES_DB: ${POSTGRES_DB-}
-      VERSION: ${VERSION-}
+      POSTGRES_DB: ${POSTGRES_DB:-}
+      VERSION: ${VERSION:-}
     command: npm run prod
 
   postgres:
@@ -66,15 +66,20 @@ services:
     environment:
       POSTGRES_PASSWORD: 1
       POSTGRES_USER: 1
-      POSTGRES_DB: ${POSTGRES_DB-}
+      POSTGRES_DB: ${POSTGRES_DB:-}
 
   nginx:
     build:
       context: ./services/nginx
       dockerfile: Dockerfile
-    image: ${IMAGE_PREFIX-}_nginx:local
+    image: ${IMAGE_PREFIX:-}_nginx:local
     ports:
       - "${PORT_LOCAL}:80"
+    depends_on:
+      - frontend
+      - cms
+      - api-gateway
+      - postgres
     networks:
       - net_a
 

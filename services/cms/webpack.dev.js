@@ -1,6 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -32,10 +31,7 @@ module.exports = {
                 test: /\.css$/,
                 use: [
                     {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            hmr: true,
-                        },
+                        loader: 'style-loader',
                     },
                     {
                         loader: 'css-loader',
@@ -56,10 +52,7 @@ module.exports = {
                 test: /\.scss$/,
                 use: [
                     {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            hmr: true,
-                        },
+                        loader: 'style-loader',
                     },
                     {
                         loader: 'css-loader',
@@ -82,15 +75,19 @@ module.exports = {
                     },
                 ],
             },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                    },
+                ],
+            },
         ],
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: 'src/html/index.html',
-        }),
-        new MiniCssExtractPlugin({
-            filename: '[name].css',
-            chunkFilename: '[id].css',
         }),
         new webpack.DefinePlugin({
             'process.env.API_ENDPOINT': JSON.stringify(process.env.API_ENDPOINT_CLIENT),

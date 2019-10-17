@@ -34,7 +34,7 @@ Set the following in your .env file.
 Example of a `.env` file.
 
 ```
-VERSION=v0.63
+VERSION=v0.64
 USERNAME=insidedocker
 PORT_LOCAL=80
 PORT_LIVE=3000
@@ -141,6 +141,8 @@ There are two variants mapped to five modes like follows.
 Following features are supported
 
 * CMS builder and CMS (ongoing...)
+
+* Installtion and create initital user.
 
 
 ### POSTGRES MICROSERVICE

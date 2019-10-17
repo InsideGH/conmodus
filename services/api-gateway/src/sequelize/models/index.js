@@ -1,9 +1,7 @@
-const sequelize = require('../sequelize');
-
 const User = require('./user');
-
-sequelize.sync();
+const Installation = require('./installation');
 
 module.exports = {
     User,
+    Installation,
 };
