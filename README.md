@@ -1,6 +1,6 @@
 # CONMODUS
 
-React SSR with docker.
+React SSR with docker, demo [web.thelarsson.com](http://web.thelarsson.com). Note, it's served from my old gaming PC running Ubuntu server that isn't online all the time.
 
 ## GET STARTED
 
@@ -45,7 +45,7 @@ POSTGRES_USER=my_db_dev_username
 DEV_MODE=dev
 ```
 
-There are 5 modes available. The mode is controlled by the env variable called DEV_MODE.
+There are 5 modes available. The mode is controlled by the .env file and the variable called DEV_MODE.
 
 > If DEV_MODE==dev. Client side only development. Using `PORT_LOCAL`.
 
@@ -65,6 +65,7 @@ To start just do the following
     * make logs (in another terminal)
     * To tear down, CTRL-C the logs terminal and do make stop
 ```
+
 <br>
 
 ---
@@ -266,7 +267,24 @@ If you have multiple projects on your server, your server nginx can route subdom
 
 ---
 
-### COMMANDS AVAILABLE IN MAKEFILE
+### LIVE
+
+```
+    ./push_to_dockerhub.sh
+```
+
+The above script will build all microservices. Each microservice build results in 2 images, one __latest__ and a specific __version__ (decided by VERSION variable in the .env file). Then all imagas are pushed to docker hub. This means in total 6 images.
+
+On your server (EC2, Ubuntu server, etc ...) you use the `docker-compose-live.yml` (renamed to `docker-compose.yml`) along with the `deploy.sh` script and a `.env` file with `PORT_LIVE` set to what you want to use. Just scp these 3 files to your server and run `./deploy.sh`.
+
+The above assumes that you have a nginx setup on your server routing traffic to the currect port (`PORT_LIVE`).
+
+If you have multiple projects on your server, your server nginx can route subdomains to the different projects port. Currently the `docker-compose-live.yml` exposes port 3000.
+
+---
+
+### ALL COMMANDS AVAILABLE IN MAKEFILE
+
 >To build
 * make build
 * make build_all
