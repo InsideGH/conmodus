@@ -1,0 +1,88 @@
+{
+    "env": {
+        "node": {
+            "plugins": [
+                "@babel/plugin-proposal-class-properties",
+                "@babel/plugin-transform-runtime",
+                [
+                    "css-modules-transform",
+                    {
+                        "extensions": [".scss", ".css"]
+                    }
+                ],
+                [
+                    "babel-plugin-inline-import",
+                    {
+                        "extensions": [".html"]
+                    }
+                ],
+                "@babel/plugin-syntax-dynamic-import",
+                "@loadable/babel-plugin"
+            ],
+            "presets": [
+                [
+                    "@babel/preset-env",
+                    {
+                        "targets": {
+                            "ie": "11"
+                        }
+                    }
+                ],
+                "@babel/preset-react"
+            ]
+        },
+        "dev": {
+            "plugins": [
+                "react-hot-loader/babel",
+                "@babel/plugin-proposal-class-properties",
+                "@babel/plugin-transform-runtime",
+                "@babel/plugin-syntax-dynamic-import",
+                "@loadable/babel-plugin"
+            ],
+            "presets": [
+                [
+                    "@babel/preset-env",
+                    {
+                        "targets": {
+                            "ie": "11"
+                        }
+                    }
+                ],
+                "@babel/preset-react",
+                [
+                    "@emotion/babel-preset-css-prop",
+                    {
+                        "autoLabel": true,
+                        "labelFormat": "[local]"
+                    }
+                ]
+            ]
+        },
+        "prod": {
+            "plugins": [
+                "@babel/plugin-proposal-class-properties",
+                "@babel/plugin-transform-runtime",
+                "@babel/plugin-syntax-dynamic-import",
+                "@loadable/babel-plugin"
+            ],
+            "presets": [
+                [
+                    "@babel/preset-env",
+                    {
+                        "targets": {
+                            "ie": "11"
+                        }
+                    }
+                ],
+                "@babel/preset-react",
+                [
+                    "@emotion/babel-preset-css-prop",
+                    {
+                        "autoLabel": true,
+                        "labelFormat": "[local]"
+                    }
+                ]
+            ]
+        }
+    }
+}

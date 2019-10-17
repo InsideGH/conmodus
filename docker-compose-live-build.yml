@@ -1,3 +1,11 @@
+# LIVE build environment.
+# SSR frontend rendering.
+# MOST variables are available in this and the .env file.
+# Secrets such as
+#   POSTGRES_PASSWORD
+#   POSTGRES_USER
+# must be passed though as env variables during 'docker-compose -up' to 'api-gateway' and 'postgres'
+# when using the docker-compose-live.yml file.
 version: '3.7'
 services:
 
@@ -16,8 +24,22 @@ services:
         CONMODUS_MAX_RENDERS: 10
         CONMODUS_REACT_ROOT: react-root
         CONMODUS_MODE: ssr
-        VERSION: ${VERSION-}
-    image: ${IMAGE_PREFIX-}_frontend:live
+        VERSION: ${VERSION:-}
+    image: ${IMAGE_PREFIX:-}_frontend:live
+
+  cms:
+    build:
+      context: ./services/cms
+      dockerfile: Dockerfile.live
+      args:
+        NODE_ENV: production
+        LOG_LEVEL: info
+        API_ENDPOINT: http://api-gateway/api
+        API_ENDPOINT_CLIENT: /api-gateway/api
+        GRAPHQL_ENDPOINT: http://api-gateway/graphql
+        GRAPHQL_ENDPOINT_CLIENT: /api-gateway/graphql
+        VERSION: ${VERSION:-}
+    image: ${IMAGE_PREFIX:-}_cms:live
 
   api-gateway:
     build:
@@ -28,11 +50,15 @@ services:
         LOG_LEVEL: info
         GRAPHQL_ENDPOINT: /graphql
         API_ENDPOINT: /api
-        VERSION: ${VERSION-}
-    image: ${IMAGE_PREFIX-}_api_gateway:live
+        POSTGRES_HOST: postgres
+        VERSION: ${VERSION:-}
+    image: ${IMAGE_PREFIX:-}_api_gateway:live
+
+  postgres:
+    image: postgres
 
   nginx:
     build:
       context: ./services/nginx
-      dockerfile: Dockerfile
-    image: ${IMAGE_PREFIX-}_nginx:live
+      dockerfile: Dockerfile.live
+    image: ${IMAGE_PREFIX:-}_nginx:live

@@ -11,6 +11,9 @@ up: info
 stop: info
 	docker-compose -f docker-compose-$(DEV_MODE).yml stop
 
+down: info
+	docker-compose -f docker-compose-$(DEV_MODE).yml down
+
 restart: info
 	docker-compose -f docker-compose-$(DEV_MODE).yml restart
 

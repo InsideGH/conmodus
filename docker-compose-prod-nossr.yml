@@ -5,7 +5,7 @@ services:
     build:
       context: ./services/frontend
       dockerfile: Dockerfile
-    image: ${IMAGE_PREFIX-}_frontend:prod-nossr
+    image: ${IMAGE_PREFIX:-}_frontend:prod-nossr
     networks:
       - net_a
     environment:
@@ -16,14 +16,29 @@ services:
       GRAPHQL_ENDPOINT: http://api-gateway/graphql
       GRAPHQL_ENDPOINT_CLIENT: /api-gateway/graphql
       CONMODUS_MODE: nossr
-      VERSION: ${VERSION-}
+      VERSION: ${VERSION:-}
     command: npm run prod:nossr
+
+  cms:
+    build:
+      context: ./services/cms
+      dockerfile: Dockerfile
+    image: ${IMAGE_PREFIX:-}_cms:prod
+    networks:
+      - net_a
+    environment:
+      NODE_ENV: production
+      LOG_LEVEL: info
+      API_ENDPOINT_CLIENT: /api-gateway/api
+      GRAPHQL_ENDPOINT_CLIENT: /api-gateway/graphql
+      VERSION: ${VERSION:-}
+    command: npm run prod
 
   api-gateway:
     build:
       context: ./services/api-gateway
       dockerfile: Dockerfile
-    image: ${IMAGE_PREFIX-}_api_gateway:prod-nossr
+    image: ${IMAGE_PREFIX:-}_api_gateway:prod-nossr
     networks:
       - net_a
     environment:
@@ -31,16 +46,37 @@ services:
       LOG_LEVEL: info
       GRAPHQL_ENDPOINT: /graphql
       API_ENDPOINT: /api
-      VERSION: ${VERSION-}
+      POSTGRES_HOST: postgres
+      POSTGRES_PASSWORD: 1
+      POSTGRES_USER: 1
+      POSTGRES_DB: ${POSTGRES_DB:-}
+      VERSION: ${VERSION:-}
     command: npm run prod
+
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - net_a
+    environment:
+      POSTGRES_PASSWORD: 1
+      POSTGRES_USER: 1
+      POSTGRES_DB: ${POSTGRES_DB:-}
 
   nginx:
     build:
       context: ./services/nginx
       dockerfile: Dockerfile
-    image: ${IMAGE_PREFIX-}_nginx:local
+    image: ${IMAGE_PREFIX:-}_nginx:local
     ports:
       - "${PORT_LOCAL}:80"
+    depends_on:
+      - frontend
+      - cms
+      - api-gateway
+      - postgres
     networks:
       - net_a
 

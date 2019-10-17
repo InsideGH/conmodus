@@ -13,7 +13,7 @@
         "//-2c": "---------------------------------------------------------------",
         "dev:ssr": "npm run clean && concurrently -k -s first \"npm run dev:ssr:client\" \"npm run dev:ssr:server\"",
         "dev:ssr:client": "BABEL_ENV=dev webpack-dev-server --color --mode=development --config webpack.dev-ssr.js",
-        "dev:ssr:server": "nodemon -e js,html,json --watch webpack.dev-ssr.js --watch package.json --watch src/server --watch src/html --watch src/conmodus --watch src/api --exec \"BABEL_ENV=node LOG_LEVEL=debug babel-node src/server/server.js | ./node_modules/.bin/pino-pretty\"",
+        "dev:ssr:server": "nodemon -e js,html,json --watch webpack.dev-ssr.js --watch package.json --watch src/server --watch src/html --watch src/conmodus --exec \"BABEL_ENV=node LOG_LEVEL=debug babel-node src/server/server.js | ./node_modules/.bin/pino-pretty\"",
         "//-3a": "---------------------------------------------------------------",
         "//-3b": "---------------------- PROD SSR -------------------------------",
         "//-3c": "---------------------------------------------------------------",

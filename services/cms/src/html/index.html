@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <style type="text/css">
+            div#loading-container {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                z-index: 1000;
+                color: #ccc;
+                animation: fadein 1s;
+                background-color: black;
+            }
+            div#loading-centered {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+            }
+            div#loading-content {
+                text-align: center;
+            }
+            div#loading-spinner {
+                width: 40px;
+                height: 40px;
+                background-color: #ccc;
+
+                margin: 0 auto;
+                -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+                animation: sk-rotateplane 1.2s infinite ease-in-out;
+            }
+
+            @-webkit-keyframes sk-rotateplane {
+                0% {
+                    -webkit-transform: perspective(120px);
+                }
+                50% {
+                    -webkit-transform: perspective(120px) rotateY(180deg);
+                }
+                100% {
+                    -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg);
+                }
+            }
+
+            @keyframes sk-rotateplane {
+                0% {
+                    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+                    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+                }
+                50% {
+                    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+                    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+                }
+                100% {
+                    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+                    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="loading-container">
+            <div id="loading-centered">
+                <div id="loading-content">
+                    <h4>Loading</h4>
+                    <div id="loading-spinner"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="react-root"></div>
+    </body>
+</html>

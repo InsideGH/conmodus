@@ -1,3 +1,6 @@
+# DEV environment.
+# Client side frontend rendering.
+# ALL variables are available in this and the .env file.
 version: '3.7'
 services:
 
@@ -5,7 +8,7 @@ services:
     build:
       context: ./services/frontend
       dockerfile: Dockerfile
-    image: ${IMAGE_PREFIX-}_frontend:dev
+    image: ${IMAGE_PREFIX:-}_frontend:dev
     networks:
       - net_a
     environment:
@@ -13,18 +16,37 @@ services:
       LOG_LEVEL: debug
       API_ENDPOINT_CLIENT: /api-gateway/api
       GRAPHQL_ENDPOINT_CLIENT: /api-gateway/graphql
-      VERSION: ${VERSION-}
+      VERSION: ${VERSION:-}
     volumes:
       - ./services/frontend/src:/app/src
       - ./services/frontend/webpack.dev.js:/app/webpack.dev.js
       - ./services/frontend/package.json:/app/package.json
     command: npm run dev
 
+  cms:
+    build:
+      context: ./services/cms
+      dockerfile: Dockerfile
+    image: ${IMAGE_PREFIX:-}_cms:dev
+    networks:
+      - net_a
+    environment:
+      NODE_ENV: development
+      LOG_LEVEL: debug
+      API_ENDPOINT_CLIENT: /api-gateway/api
+      GRAPHQL_ENDPOINT_CLIENT: /api-gateway/graphql
+      VERSION: ${VERSION:-}
+    volumes:
+      - ./services/cms/src:/app/src
+      - ./services/cms/webpack.dev.js:/app/webpack.dev.js
+      - ./services/cms/package.json:/app/package.json
+    command: npm run dev
+
   api-gateway:
     build:
       context: ./services/api-gateway
       dockerfile: Dockerfile
-    image: ${IMAGE_PREFIX-}_api_gateway:dev
+    image: ${IMAGE_PREFIX:-}_api_gateway:dev
     networks:
       - net_a
     environment:
@@ -32,18 +54,39 @@ services:
       LOG_LEVEL: debug
       GRAPHQL_ENDPOINT: /graphql
       API_ENDPOINT: /api
-      VERSION: ${VERSION-}
+      POSTGRES_HOST: postgres
+      POSTGRES_PASSWORD: 1
+      POSTGRES_USER: 1
+      POSTGRES_DB: ${POSTGRES_DB:-}
+      VERSION: ${VERSION:-}
     volumes:
       - ./services/api-gateway/src:/app/src
     command: npm run dev
+
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - net_a
+    environment:
+      POSTGRES_PASSWORD: 1
+      POSTGRES_USER: 1
+      POSTGRES_DB: ${POSTGRES_DB:-}
 
   nginx:
     build:
       context: ./services/nginx
       dockerfile: Dockerfile
-    image: ${IMAGE_PREFIX-}_nginx:local
+    image: ${IMAGE_PREFIX:-}_nginx:local
     ports:
       - "${PORT_LOCAL}:80"
+    depends_on:
+      - frontend
+      - cms
+      - api-gateway
+      - postgres
     networks:
       - net_a
     volumes:
