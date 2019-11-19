@@ -1,7 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { ChunkExtractor } from '@loadable/server';
-import { Helmet } from 'react-helmet';
 
 import ApolloClient from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -48,7 +47,7 @@ const renderer = async ({ req, config, stats }) => {
         ssrDataList: [],
     };
     const context = {};
-    let helmet;
+    const helmetContext = {};
     let apolloState = {};
 
     for (index = 0; index < config.maxRenders; index++) {
@@ -60,13 +59,21 @@ const renderer = async ({ req, config, stats }) => {
         extractor = new ChunkExtractor({ stats });
 
         const App = (
-            <config.Client url={req.url} entries={entries} context={context} store={store} extractor={extractor} apolloClient={apolloClient} />
+            <config.Client
+                url={req.url}
+                entries={entries}
+                context={context}
+                store={store}
+                extractor={extractor}
+                apolloClient={apolloClient}
+                helmetContext={helmetContext}
+            />
         );
+
         await getDataFromTree(App);
         apolloState = apolloClient.extract();
 
         markup = renderToString(App);
-        helmet = Helmet.renderStatic();
 
         timeUp = time.isTimeout();
         time.log(time.used());
@@ -78,6 +85,8 @@ const renderer = async ({ req, config, stats }) => {
             break;
         }
     }
+
+    const { helmet } = helmetContext;
 
     const state = {
         redux: store.getState(),

@@ -6,11 +6,13 @@ import App from '../client/app/root/component/root';
 import { Provider as ConmodusProvider } from '../client/conmodus-provider';
 import { ApolloProvider } from '@apollo/react-common';
 import PropTypes from 'prop-types';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
-const ClientServerSide = ({ url, context, store, entries, sheet, extractor, apolloClient }) => {
+const ClientServerSide = ({ url, context, store, entries, sheet, extractor, apolloClient, helmetContext }) => {
     return (
-        <ApolloProvider client={apolloClient}>
-            <ChunkExtractorManager extractor={extractor}>
+        <HelmetProvider context={helmetContext}>
+            <ApolloProvider client={apolloClient}>
+                <ChunkExtractorManager extractor={extractor}>
                     <ConmodusProvider entries={entries}>
                         <StaticRouter location={url} context={context}>
                             <Provider store={store}>
@@ -18,8 +20,9 @@ const ClientServerSide = ({ url, context, store, entries, sheet, extractor, apol
                             </Provider>
                         </StaticRouter>
                     </ConmodusProvider>
-            </ChunkExtractorManager>
-        </ApolloProvider>
+                </ChunkExtractorManager>
+            </ApolloProvider>
+        </HelmetProvider>
     );
 };
 
@@ -34,6 +37,7 @@ ClientServerSide.propTypes = {
     }).isRequired,
     sheet: PropTypes.any.isRequired,
     extractor: PropTypes.any.isRequired,
+    helmetContext: PropTypes.any.isRequired,
 };
 
 export default ClientServerSide;
