@@ -1,6 +1,5 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { ServerStyleSheet } from 'styled-components';
 import { ChunkExtractor } from '@loadable/server';
 import { Helmet } from 'react-helmet';
 
@@ -35,7 +34,6 @@ const renderer = async ({ req, config, stats }) => {
     let markup;
     let index;
     let timeUp;
-    let sheet;
     let extractor;
 
     const store = config.makeFreshStore();
@@ -59,11 +57,10 @@ const renderer = async ({ req, config, stats }) => {
             await ssrResolveData(entries.ssrDataList, time);
         }
 
-        sheet = new ServerStyleSheet();
         extractor = new ChunkExtractor({ stats });
 
         const App = (
-            <config.Client url={req.url} entries={entries} context={context} store={store} sheet={sheet} extractor={extractor} apolloClient={apolloClient} />
+            <config.Client url={req.url} entries={entries} context={context} store={store} extractor={extractor} apolloClient={apolloClient} />
         );
         await getDataFromTree(App);
         apolloState = apolloClient.extract();
@@ -85,7 +82,6 @@ const renderer = async ({ req, config, stats }) => {
     const state = {
         redux: store.getState(),
         tasks: getTasksState(entries.ssrDataList),
-        styleTags: sheet.getStyleTags(),
         extractor,
         helmet,
         apollo: apolloState,
@@ -110,7 +106,6 @@ const renderer = async ({ req, config, stats }) => {
         apollo: apolloState,
         redux_state: state.redux,
         tasks_state: JSON.stringify(state.tasks, null, 4),
-        style_tags_state: state.styleTags,
         helmet_state: {
             base: state.helmet.base.toString(),
             link: state.helmet.link.toString(),
@@ -185,7 +180,6 @@ const ssr = async (req, config) => {
         .insertBody(state.extractor.getScriptTags())
         .insertHead(cssString)
         .insertHead(state.extractor.getStyleTags())
-        .insertHead(state.styleTags)
         .insertHead(helmetHeadData)
         .insertHead(state.extractor.getLinkTags())
         .insertHtmlOpeningTag(state.helmet.htmlAttributes.toString())

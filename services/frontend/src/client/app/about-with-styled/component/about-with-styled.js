@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Container from './my-other';
 
 const Header = styled.h3`
@@ -20,8 +20,8 @@ const Title = styled.h2`
 const ExampleAboutWithStyled = () => {
     return (
         <Container>
-            <Title>Styled components</Title>
-            <Header>About with styled</Header>
+            <Title>Emotion Styled components</Title>
+            <Header>About with emotion styled</Header>
         </Container>
     );
 };

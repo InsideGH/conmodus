@@ -1,7 +1,6 @@
 import React from 'react';
 import { StaticRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { StyleSheetManager } from 'styled-components';
 import { ChunkExtractorManager } from '@loadable/server';
 import App from '../client/app/root/component/root';
 import { Provider as ConmodusProvider } from '../client/conmodus-provider';
@@ -12,7 +11,6 @@ const ClientServerSide = ({ url, context, store, entries, sheet, extractor, apol
     return (
         <ApolloProvider client={apolloClient}>
             <ChunkExtractorManager extractor={extractor}>
-                <StyleSheetManager sheet={sheet.instance}>
                     <ConmodusProvider entries={entries}>
                         <StaticRouter location={url} context={context}>
                             <Provider store={store}>
@@ -20,7 +18,6 @@ const ClientServerSide = ({ url, context, store, entries, sheet, extractor, apol
                             </Provider>
                         </StaticRouter>
                     </ConmodusProvider>
-                </StyleSheetManager>
             </ChunkExtractorManager>
         </ApolloProvider>
     );
