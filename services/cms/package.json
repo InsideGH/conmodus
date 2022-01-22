@@ -75,7 +75,7 @@
         "graphql-tag": "^2.10.1",
         "html-webpack-plugin": "^3.2.0",
         "mini-css-extract-plugin": "^0.7.0",
-        "node-fetch": "^2.6.0",
+        "node-fetch": "^3.1.1",
         "node-sass": "^4.12.0",
         "pino": "^5.12.6",
         "pino-pretty": "^3.2.0",
